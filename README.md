@@ -4,7 +4,7 @@
 날짜·음식·거리를 고르면 AI 추천 후보 5곳이 나오고, 투표까지 해 볼 수 있습니다. (후보와 투표 수는 샘플 데이터)
 
 - 데모: https://kkj3745.github.io/moabap-web/
-- 단일 `index.html` (빌드 도구 없음). 파일을 열기만 하면 동작합니다.
+- `index.html`: 데스크톱 웹(홈·저장·모아맵·같이밥·상세), `m.html`: 모바일 간단 체험. 화면 너비로 자동 이동합니다. 빌드 도구 없이 파일만 열면 동작합니다.
 - 이용 기록: Amplitude + GA4 (`index.html` 상단 `CONFIG`에 키를 넣었을 때만 전송, 비어 있으면 콘솔에만 기록)
 - 이벤트: place_saved(링크로 맛집 저장·체험), place_save_failed, invite_opened, group_link_opened(초대 링크), experience_started, conditions_started, conditions_submitted, candidates_generated, reco_card_clicked, vote_cast, group_vote_completed, reservation_completed(체험·simulated:true), install_button_clicked, outbound_clicked, feedback_submitted
 - A/B(방문자별 무작위 배정, 모든 이벤트에 속성으로 포함): reason_variant(추천 이유 문구 유무), chip_variant(카드에 시간 칩 노출 vs 상세에서만), mylist_variant(내 저장 포함 가능 vs 불가)

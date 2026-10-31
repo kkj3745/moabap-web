@@ -4,145 +4,172 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>모아밥 · 저장한 맛집을 같이 정해요</title>
-<meta name="description" content="저장해 둔 맛집을 모아 친구들과 함께 정하는 앱 모아밥. 같이밥 흐름을 웹에서 체험해 보세요.">
+<meta name="description" content="흩어진 맛집 저장을 한곳에 모으고, 친구들과 같이 정하는 모아밥. 웹에서 같이밥 흐름을 체험해 보세요.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
 <style>
-:root{--bg:#FBF8F4;--brand:#8E1B32;--dark:#6B1225;--tint:#F6E8EB;--line:#ECE5E1;--muted:#6F6465;--ink:#231C1D;--yellow:#F2C14E}
+:root{--bg:#FBF8F4;--brand:#8E1B32;--dark:#6B1225;--tint:#F6E8EB;--line:#ECE5E1;--muted:#7A6F70;--ink:#231C1D;--yellow:#F2C14E}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',-apple-system,sans-serif;-webkit-text-size-adjust:100%;word-break:keep-all}
-.wrap{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-.top{display:flex;align-items:center;gap:8px;margin:14px 16px 10px;padding:0 14px;height:40px;background:#F3EDE8;border-radius:20px;font-size:13px;color:var(--muted)}
-.top b{color:var(--brand);font-size:14px}.top .back{border:0;background:none;font:inherit;color:var(--muted);cursor:pointer;padding:0 4px 0 0}
-.pill{display:inline-block;font-size:11px;font-weight:600;color:var(--dark);background:var(--tint);border-radius:6px;padding:2px 8px}
-main{flex:1;padding:4px 20px 130px;display:flex;flex-direction:column;gap:16px}
-h1{margin:0;font-size:24px;line-height:1.35}.eyebrow{font-size:13px;font-weight:600;color:var(--brand)}
-.lead{margin:0;font-size:14.5px;line-height:1.6;color:#4A4041}
-.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.steps{display:flex;gap:4px;margin:8px 0 6px}.steps i{flex:1;height:4px;border-radius:2px;background:var(--line)}.steps i.on{background:var(--brand)}
-.small{font-size:12px;color:var(--muted)}.lab{font-size:12px;font-weight:600;color:var(--brand)}
-.sec{display:flex;flex-direction:column;gap:8px}.sec h2{margin:0;font-size:14px;font-weight:600}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{min-height:40px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',-apple-system,sans-serif;word-break:keep-all;min-width:1000px}
+a{color:var(--brand)}a:hover{color:var(--dark)}
+button{font-family:inherit}
+#hdr{position:sticky;top:0;z-index:20;height:64px;display:flex;align-items:center;gap:32px;padding:0 48px;background:#fff;border-bottom:1px solid var(--line)}
+#hdr .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--brand);font-size:20px;font-weight:700}
+#hdr nav{display:flex;gap:28px;height:64px}
+#hdr nav a{height:64px;display:flex;align-items:center;padding:0 4px;font-size:15px;color:#4A4041;border-bottom:2px solid transparent;text-decoration:none}
+#hdr nav a.on{font-weight:700;color:var(--brand);border-bottom-color:var(--brand)}
+.sp{flex:1}
+.srch{width:300px;height:40px;display:flex;align-items:center;gap:8px;padding:0 14px;background:var(--bg);border:1px solid var(--line);border-radius:20px;color:var(--muted);font-size:14px}
+.pbtn{display:flex;align-items:center;gap:4px;height:40px;padding:0 16px;border-radius:20px;border:0;background:var(--brand);color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.gbtn{height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--brand);background:#fff;color:var(--brand);font-size:14px;font-weight:600;cursor:pointer}
+.ava{width:36px;height:36px;border-radius:18px;background:var(--tint);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+[hidden]{display:none!important}
+.chip{min-height:38px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-size:13.5px;cursor:pointer}
 .chip[aria-pressed=true]{border-color:var(--brand);background:var(--tint);color:var(--brand);font-weight:600}
+.chip.sm{min-height:30px;padding:3px 10px;font-size:12.5px}
+.btn{display:flex;align-items:center;justify-content:center;height:48px;border:0;border-radius:12px;background:var(--brand);color:#fff;font-size:15px;font-weight:600;cursor:pointer;width:100%}
+.btn:disabled{background:#CDBEC2;cursor:default}.btn.sub{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.rw{display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff;border:1px solid var(--line);border-radius:14px;cursor:pointer}
+.rw.top{border:1.5px solid var(--brand)}
+.rw:hover{box-shadow:0 2px 10px rgba(142,27,50,.08)}
+.tag{font-size:11px;font-weight:600;background:var(--yellow);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+.vb{height:36px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:600;cursor:pointer}
+.vb.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+#ovl{position:fixed;inset:0;background:rgba(35,28,29,.45);z-index:50;display:flex;align-items:center;justify-content:center}
+#modal{width:520px;max-width:92vw;max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:26px 28px;display:flex;flex-direction:column;gap:14px}
+#modal h2{margin:0;font-size:20px}#modal .sub{font-size:13px;color:var(--muted);line-height:1.5}
+#modal input[type=text],#modal input[type=url],#modal input[type=number]{height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;font-size:14px;width:100%}
+.lab{font-size:13px;font-weight:600}.chips{display:flex;flex-wrap:wrap;gap:8px}
 .chk{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:12px;cursor:pointer;text-align:left;font:inherit;width:100%}
 .box{flex:none;width:22px;height:22px;border:1.5px solid #CFC5C0;border-radius:6px;margin-top:1px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
 .chk[aria-pressed=true] .box{background:var(--brand);border-color:var(--brand)}
-.chk b{font-size:14px;font-weight:600}.chk span.d{display:block;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px}
-.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px 20px calc(14px + env(safe-area-inset-bottom))}
-.bar .in{max-width:430px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
-.btn{display:flex;align-items:center;justify-content:center;height:48px;border:0;border-radius:12px;background:var(--brand);color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none}
-.btn.sub{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
-.btn:disabled{background:#CDBEC2;cursor:default}
-.note{text-align:center;font-size:12px;color:var(--muted)}
-.cand{display:flex;flex-direction:column;gap:7px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:14px;cursor:pointer}
-.cand.mine{border:1.5px solid var(--brand)}
-.cand .h{display:flex;align-items:center;gap:10px}
-.cand img{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none}
-.cand .t{flex:1;min-width:0}.cand .t b{font-size:15px}.cand .t span{display:block;font-size:12px;color:var(--muted)}
-.tag{font-size:11px;font-weight:600;background:var(--yellow);border-radius:4px;padding:1px 5px;margin-left:6px}
-.vbtn{height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
-.cand.mine .vbtn{background:var(--brand);color:#fff;border-color:var(--brand)}
-.why{font-size:12.5px;color:var(--dark);line-height:1.4}.ft{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
-.mini{display:flex;flex-wrap:wrap;gap:6px}.mini .chip{min-height:32px;padding:4px 10px;font-size:12px;color:var(--dark);background:var(--tint);border-color:#EBCBD2}
-.fb{display:flex;gap:8px}.fb .chip{flex:1;text-align:center}
-.hero{background:linear-gradient(160deg,#8E1B32,#6B1225);color:#fff;border-radius:20px;padding:22px 20px;display:flex;flex-direction:column;gap:10px}
-.hero h1{font-size:26px}.hero p{margin:0;font-size:14px;line-height:1.55;color:#F3DDE2}
-.feat{display:flex;gap:12px;align-items:flex-start}.feat .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--tint);color:var(--brand);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
-.feat b{font-size:14.5px}.feat p{margin:2px 0 0;font-size:13px;color:var(--muted);line-height:1.5}
-.links{display:flex;flex-direction:column;gap:8px}
-.lnk{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500}
-.lnk span{color:var(--muted);font-size:12px}
-.photo{width:100%;height:150px;border-radius:14px;object-fit:cover}
-.in-row{display:flex;gap:8px}.in-row input{flex:1;min-width:0;height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;font-size:13.5px;background:#fff}.in-row button{flex:none;height:44px;padding:0 16px;border:0;border-radius:12px;background:var(--brand);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer}.saved{display:flex;gap:10px;align-items:center;padding:10px 12px;background:var(--tint);border:1px solid #EBCBD2;border-radius:14px}.saved img{width:44px;height:44px;border-radius:8px;object-fit:cover}.saved b{font-size:14.5px}.saved span{display:block;font-size:12px;color:var(--dark)}
-.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#231C1D;color:#fff;font-size:13px;padding:10px 16px;border-radius:10px;z-index:9}
-footer{padding:0 20px 20px;font-size:11.5px;color:var(--muted);line-height:1.6}footer a{color:var(--brand)}
-[hidden]{display:none!important}
+.saved{display:flex;gap:10px;align-items:center;padding:8px 10px;background:var(--tint);border:1px solid #EBCBD2;border-radius:12px}
+.saved img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+#toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13.5px;padding:11px 18px;border-radius:10px;z-index:90}
+#foot{padding:8px 48px 28px;font-size:12px;color:var(--muted);line-height:1.7;max-width:900px}
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="top"><button class="back" id="back" hidden aria-label="뒤로">‹</button><b>모아밥</b><span id="crumb">같이밥</span><span class="pill" style="margin-left:auto">프로토타입 체험</span></div>
+<header id="hdr">
+<a class="logo" href="#" data-go="home"><svg width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><path d="M22 47 C22 24 78 24 78 47 Z" fill="#F2C14E"/><path d="M10 50 H90 C90 72 72 84 50 84 C28 84 10 72 10 50 Z" fill="#8E1B32"/><path d="M38 84 H62 L60 92 H40 Z" fill="#8E1B32"/></svg>모아밥</a>
+<nav aria-label="주 메뉴"><a href="#" data-go="home" data-nav="home">홈</a><a href="#" data-go="saved" data-nav="saved">저장</a><a href="#" data-go="map" data-nav="map">모아맵</a><a href="#" data-go="together" data-nav="together">같이밥</a><a href="#" data-act="me" data-nav="me">내정보</a></nav>
+<div class="sp"></div>
+<div class="srch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg>식당, 동네, 메뉴 검색</div>
+<button class="pbtn" data-act="add"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>맛집 추가</button>
+<button class="gbtn" data-act="install">앱 설치</button>
+<span class="ava">모</span>
+</header>
 
-<!-- 홈 -->
-<main id="v-home">
-<div class="hero"><div class="eyebrow" style="color:#F2C14E">저장 → 같이 정하기 → 예약</div><h1 id="hello">저장만 하던 맛집,<br>친구들과 같이 정해요</h1><p>흩어진 맛집 저장을 한곳에 모으고, 모임마다 각자의 조건과 저장을 합쳐 후보 5곳을 추려 드려요.</p></div>
-<div class="sec"><h2>이렇게 써요</h2>
-<div class="card" style="display:flex;flex-direction:column;gap:14px">
-<div class="feat"><div class="n">1</div><div><b>맛집 저장</b><p>가고 싶은 곳을 한곳에 모아 둬요.</p></div></div>
-<div class="feat"><div class="n">2</div><div><b>같이밥</b><p>링크 하나로 친구를 초대하고, 각자 조건을 입력해요.</p></div></div>
-<div class="feat"><div class="n">3</div><div><b>투표·예약</b><p>겹치는 후보 5곳에 투표하고, 방장이 대표 예약해요.</p></div></div>
-</div></div>
-<div class="sec"><div class="row"><h2>링크로 맛집 저장해 보기</h2><span class="small">체험</span></div>
-<div class="card" style="display:flex;flex-direction:column;gap:10px">
-<div class="small" style="line-height:1.5">인스타그램 릴스나 네이버 지도 링크를 붙여 넣으면 모아밥이 식당을 찾아 저장해 줘요. 체험 버전에서는 실제 인식 대신 샘플 맛집이 저장돼요.</div>
-<div class="in-row"><input id="link" type="url" inputmode="url" placeholder="https://www.instagram.com/reel/..." aria-label="맛집 링크"><button id="saveLink">저장</button></div>
-<div class="small" id="linkMsg" hidden></div>
-<div id="savedList" style="display:flex;flex-direction:column;gap:8px"></div>
-</div></div>
-<div class="links" id="links">
-<a class="lnk" id="l-insta" href="#" target="_blank" rel="noopener" hidden>인스타그램 보기 <span>@moabap</span></a>
-<a class="lnk" id="l-naver" href="https://map.naver.com/" target="_blank" rel="noopener">네이버 지도 앱으로 맛집 찾기 <span>외부 이동</span></a>
+<section id="v-home" data-view><div style="flex: 1;  display: flex; gap: 32px; padding: 28px 48px 0;padding-bottom: 64px;">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 12px;"><div style="display: flex; align-items: center; gap: 8px;"><h2 style="margin: 0; font-size: 18px; font-weight: 700;">다가오는 예약</h2><span style="font-size: 14px; font-weight: 700; color: #8E1B32;">3</span></div>
+<div style="display: flex; gap: 12px;"><a href="#" data-go="detail" style="flex: 1; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; text-decoration: none; color: #231C1D;"><div style="width: 46px; height: 46px; flex: none; border-radius: 12px; background: #F6E8EB;color: #8E1B32; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 11px;">11월</span><span style="font-size: 17px; font-weight: 700; line-height: 1.1;">14</span></div><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; font-weight: 600; color: #8E1B32;">D-17</span><span style="font-size: 15px; font-weight: 600;">저녁 일곱시 · 토 19:00</span><span style="font-size: 13px; color: #7A6F70;">망원동 · 4명</span></div></a><a href="#" data-go="detail" style="flex: 1; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; text-decoration: none; color: #231C1D;"><div style="width: 46px; height: 46px; flex: none; border-radius: 12px; background: #F4F1EE;color: #231C1D; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 11px;">11월</span><span style="font-size: 17px; font-weight: 700; line-height: 1.1;">21</span></div><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; font-weight: 600; color: #7A6F70;">D-24</span><span style="font-size: 15px; font-weight: 600;">두꺼비 · 토 18:00</span><span style="font-size: 13px; color: #7A6F70;">을지로 · 3명</span></div></a><a href="#" data-go="detail" style="flex: 1; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; text-decoration: none; color: #231C1D;"><div style="width: 46px; height: 46px; flex: none; border-radius: 12px; background: #F4F1EE;color: #231C1D; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 11px;">11월</span><span style="font-size: 17px; font-weight: 700; line-height: 1.1;">27</span></div><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; font-weight: 600; color: #7A6F70;">D-30</span><span style="font-size: 15px; font-weight: 600;">피타피타 · 금 19:30</span><span style="font-size: 13px; color: #7A6F70;">해방촌 · 2명</span></div></a></div></div>
+<div style="display: flex; flex-direction: column; gap: 12px;"><div style="display: flex; align-items: center; gap: 8px;"><h2 style="margin: 0; font-size: 18px; font-weight: 700;">이번 주 갈 곳</h2><span style="font-size: 11px; font-weight: 600; color: #8E1B32; background: #F6E8EB; border-radius: 6px; padding: 2px 6px;">AI 추천</span></div>
+<div style="display: flex; gap: 12px; height: 170px;"><a href="#" data-go="detail" style="flex: 1; display: flex; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; text-decoration: none; color: #231C1D;"><div style="width: 150px; flex: none; background: #F4E4C9; overflow: hidden;"><img alt="오후의 면 대표 음식 사진" src="photos/ramen.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 78%;"/></div><div style="padding: 16px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 17px; font-weight: 600;">오후의 면</span><span style="font-size: 13px; color: #7A6F70;">연남동 · 수타면</span><span style="margin-top: 6px;"><span style="display: inline-flex; align-items: center; gap: 4px; color: #8E1B32; font-size: 13px;"><svg aria-hidden="true" fill="currentColor" height="12" viewbox="0 0 24 24" width="12"><path d="M12 2l2.2 6.3L20.5 10l-6.3 1.8L12 18l-2.2-6.2L3.5 10l6.3-1.7z"></path></svg>토 12시 2명 예약 가능 · 회사에서 20분</span></span><span style="margin-top: auto; font-size: 13px; font-weight: 600; color: #8E1B32;">상세 보기 ›</span></div></a><a href="#" data-go="detail" style="flex: 1; display: flex; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; text-decoration: none; color: #231C1D;"><div style="width: 150px; flex: none; background: #EAD5D8; overflow: hidden;"><img alt="저녁 일곱시 대표 음식 사진" src="photos/steak.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 55% 55%;"/></div><div style="padding: 16px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 17px; font-weight: 600;">저녁 일곱시</span><span style="font-size: 13px; color: #7A6F70;">망원동 · 비스트로</span><span style="margin-top: 6px;"><span style="display: inline-flex; align-items: center; gap: 4px; color: #8E1B32; font-size: 13px;"><svg aria-hidden="true" fill="currentColor" height="12" viewbox="0 0 24 24" width="12"><path d="M12 2l2.2 6.3L20.5 10l-6.3 1.8L12 18l-2.2-6.2L3.5 10l6.3-1.7z"></path></svg>12/5(토) 19시 4명 예약 가능 · 같이밥 후보</span></span><span style="margin-top: auto; font-size: 13px; font-weight: 600; color: #8E1B32;">상세 보기 ›</span></div></a></div></div>
+<div style="display: flex; flex-direction: column; gap: 4px;"><div style="display: flex; align-items: center; gap: 8px;"><h2 style="margin: 0; font-size: 18px; font-weight: 700;">최근 모은 맛집</h2></div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 8px 0;"><div style="width: 52px; height: 52px; flex: none; border-radius: 10px; background: #F0E6C8; overflow: hidden;"><img alt="피타피타 대표 음식 사진" src="photos/sandwich.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%;"/></div><div style="flex-grow: 1;"><div style="font-size: 15px; font-weight: 600;">피타피타</div><div style="font-size: 13px; color: #7A6F70;">해방촌 · 출처 인스타 · 2일 전</div></div><svg aria-hidden="true" fill="#F2C14E" height="22" stroke="#C99A2E" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="22"><path d="M6 4h12v17l-6-4-6 4z"></path></svg></div><div style="display: flex; align-items: center; gap: 12px; padding: 8px 0;"><div style="width: 52px; height: 52px; flex: none; border-radius: 10px; background: #EBD3C5; overflow: hidden;"><img alt="두꺼비 대표 음식 사진" src="photos/jeongol.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 45% 50%;"/></div><div style="flex-grow: 1;"><div style="font-size: 15px; font-weight: 600;">두꺼비</div><div style="font-size: 13px; color: #7A6F70;">을지로 · 출처 네이버지도 · 5일 전</div></div><svg aria-hidden="true" fill="#F2C14E" height="22" stroke="#C99A2E" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="22"><path d="M6 4h12v17l-6-4-6 4z"></path></svg></div></div>
 </div>
-<div class="bar"><div class="in"><button class="btn" id="go">같이밥 체험하기 (1분)</button><button class="btn sub" id="install">앱 설치하기</button></div></div>
-</main>
-
-<!-- 조건 입력 -->
-<main id="v-cond" hidden>
-<div><div class="eyebrow" id="eyebrow">설치 없이 1분이면 체험할 수 있어요</div><h1>각자 조건을 골라요</h1></div>
-<div class="card"><div class="row"><b style="font-size:16px" id="roomName">토요일 저녁 모임</b><span class="small">4명 · 3/4명 입력 완료</span></div>
-<div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="lab">2/5 각자 조건 고르기 · 내 차례예요</div></div>
-<div class="sec"><div class="row"><h2>가능한 날짜</h2><span class="small">여러 개 선택</span></div><div class="chips" data-group="dates">
-<button class="chip" aria-pressed="false">12/5(토)</button><button class="chip" aria-pressed="false">12/6(일)</button><button class="chip" aria-pressed="false">12/12(토)</button><button class="chip" aria-pressed="false">12/13(일)</button></div></div>
-<div class="sec"><div class="row"><h2>먹고 싶은 음식</h2><span class="small">여러 개 선택</span></div><div class="chips" data-group="foods">
-<button class="chip" aria-pressed="false">한식</button><button class="chip" aria-pressed="false">일식</button><button class="chip" aria-pressed="false">양식</button><button class="chip" aria-pressed="false">중식</button><button class="chip" aria-pressed="false">아시안</button><button class="chip" aria-pressed="false">아무거나</button></div></div>
-<div class="sec"><div class="row"><h2>가능한 거리</h2><span class="small">하나 선택</span></div><div class="chips" data-group="dist" data-single="1">
-<button class="chip" aria-pressed="false">도보 10분</button><button class="chip" aria-pressed="false">지하철 20분 이내</button><button class="chip" aria-pressed="false">상관없어요</button></div></div>
-<button class="chk" id="inc" aria-pressed="false"><span class="box">✓</span><span><b>내 저장 맛집도 후보에 넣기 <span class="small" style="font-weight:400">선택</span></b><span class="d">넣고 싶은 사람만 체크하세요. 체험 버전에서는 샘플 저장 맛집이 들어가요.</span></span></button>
-<div class="bar"><div class="in"><button class="btn" id="send" disabled>내 조건 보내기</button><div class="note" id="hint">날짜, 음식, 거리를 하나씩 골라 주세요</div></div></div>
-</main>
-
-<!-- 후보 -->
-<main id="v-cands" hidden>
-<div class="row"><b style="font-size:16px" id="roomName2">토요일 저녁 모임</b><span class="small">모두의 조건이 겹치는 곳</span></div>
-<div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="row"><span class="lab">5/5 투표·대표 예약</span><span class="small" id="vcount">3/4명 투표</span></div></div>
-<div class="small" style="margin-top:-6px">체험용 샘플이에요. 카드를 눌러 자세히 보거나, 투표해 보세요.</div>
-<div id="cands" style="display:flex;flex-direction:column;gap:8px"></div>
-<div class="bar"><div class="in"><button class="btn" id="done" disabled>투표 마치기</button><div class="note">방장이 예약하면 참여자 모두에게 공유돼요</div></div></div>
-</main>
-
-<!-- 후보 상세 + 체험 예약 -->
-<main id="v-detail" hidden>
-<img class="photo" id="d-img" alt="">
-<div><h1 id="d-name"></h1><div class="small" id="d-meta"></div></div>
-<div class="card why" id="d-why"></div>
-<div class="sec"><div class="row"><h2>예약 가능한 시간</h2><span class="small" id="d-date"></span></div><div class="chips" id="d-times"></div></div>
-<div class="links">
-<a class="lnk" id="d-naver" href="#" target="_blank" rel="noopener">네이버 지도에서 이 동네 맛집 보기 <span>외부 이동</span></a>
-<a class="lnk" id="d-insta" href="#" target="_blank" rel="noopener">인스타그램에서 후기 찾기 <span>외부 이동</span></a>
+<div style="width: 340px; flex: none; display: flex; flex-direction: column; gap: 12px;"><div style="display: flex; align-items: center; gap: 8px;"><h2 style="margin: 0; font-size: 18px; font-weight: 700;">진행 중인 모임</h2><span style="font-size: 14px; font-weight: 700; color: #8E1B32;">2</span></div>
+<div style="padding: 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; display: flex; flex-direction: column; gap: 10px;"><div style="display: flex; justify-content: space-between; align-items: flex-start;"><div><div style="font-size: 16px; font-weight: 600;">토요일 저녁 모임</div><div style="font-size: 13px; color: #7A6F70;">12/5(토) 19시 · 4명 · 망원·합정</div></div><span style="font-size: 12px; font-weight: 600; color: #8E1B32; background: #F6E8EB; border-radius: 6px; padding: 3px 8px;">조건 모으는 중</span></div><div style="height: 6px; border-radius: 3px; background: #ECE5E1;"><div style="width: 75%; height: 6px; border-radius: 3px; background: #8E1B32;"></div></div><div style="font-size: 13px; color: #7A6F70;">3/4명 입력 완료 · 현우 님을 기다리는 중</div><a href="#" data-go="together" style="height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #8E1B32; color: #FFFFFF; font-size: 13px; font-weight: 600; text-decoration: none;">후보 미리 보기</a></div>
+<div style="padding: 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; display: flex; flex-direction: column; gap: 10px;"><div style="display: flex; justify-content: space-between; align-items: flex-start;"><div><div style="font-size: 16px; font-weight: 600;">주말 브런치</div><div style="font-size: 13px; color: #7A6F70;">11/22(일) 11시 · 3명 · 성수</div></div><span style="font-size: 12px; font-weight: 600; color: #231C1D; background: #F2C14E; border-radius: 6px; padding: 3px 8px;">투표 중</span></div><div style="font-size: 13px; color: #7A6F70;">후보 3곳 · 2/3명 투표 · 1위 불가마</div></div>
+<a href="#" data-go="together" style="height: 48px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; background: #8E1B32; color: #FFFFFF; font-size: 15px; font-weight: 600; text-decoration: none;"><svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-width="2.2" viewbox="0 0 24 24" width="18"><path d="M12 5v14M5 12h14"></path></svg>새 모임 만들기</a></div>
+</div></section>
+<section id="v-saved" data-view hidden><div style="flex: 1;  display: flex; flex-direction: column; gap: 18px; padding: 28px 48px 0;padding-bottom: 64px;">
+<div style="display: flex; align-items: center; justify-content: space-between;"><h1 style="margin: 0; font-size: 26px; font-weight: 700;">저장</h1><div style="font-size: 13px; color: #7A6F70;">저장한 맛집 6곳 · 최근 저장순</div></div>
+<div style="display: flex; gap: 8px;"><span style="display: flex; align-items: center; gap: 2px; padding: 7px 14px; border-radius: 18px; font-size: 13px; background: #F6E8EB; border: 1px solid #8E1B32; color: #6B1225; font-weight: 500;">전체</span><span style="display: flex; align-items: center; gap: 2px; padding: 7px 14px; border-radius: 18px; font-size: 13px; background: #FFFFFF; border: 1px solid #ECE5E1;">안 가 본 곳</span><span style="display: flex; align-items: center; gap: 2px; padding: 7px 14px; border-radius: 18px; font-size: 13px; background: #FFFFFF; border: 1px solid #ECE5E1;">예약함</span><span style="display: flex; align-items: center; gap: 2px; padding: 7px 14px; border-radius: 18px; font-size: 13px; background: #FFFFFF; border: 1px solid #ECE5E1;">카테고리<svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" viewbox="0 0 24 24" width="12"><path d="m6 9 6 6 6-6"></path></svg></span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;"><a href="#" data-go="detail" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; color: inherit; text-decoration: none;"><div style="height: 150px; background: #EBD3C5; overflow: hidden;"><img alt="두꺼비 대표 음식 사진" src="photos/jeongol.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 45% 50%;"/></div><div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; font-weight: 600;">두꺼비</span><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #8E1B32; background: #F6E8EB;">예약함 11/21</span></div><span style="font-size: 13px; color: #7A6F70;">을지로 · 40년 된 노포 전골</span><span style="font-size: 12px; color: #7A6F70;">출처 네이버지도 · 5일 전</span></div></a><a href="#" data-go="detail" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; color: inherit; text-decoration: none;"><div style="height: 150px; background: #F0E6C8; overflow: hidden;"><img alt="피타피타 대표 음식 사진" src="photos/sandwich.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%;"/></div><div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; font-weight: 600;">피타피타</span><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #8E1B32; background: #F6E8EB;">예약함 11/27</span></div><span style="font-size: 13px; color: #7A6F70;">해방촌 · 피타 샌드위치, 후무스</span><span style="font-size: 12px; color: #7A6F70;">출처 인스타 · 2일 전</span></div></a><a href="#" data-go="detail" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; color: inherit; text-decoration: none;"><div style="height: 150px; background: #F4E4C9; overflow: hidden;"><img alt="오후의 면 대표 음식 사진" src="photos/ramen.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 78%;"/></div><div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; font-weight: 600;">오후의 면</span><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #7A6F70; background: #F3EDE8;">안 가 봄</span></div><span style="font-size: 13px; color: #7A6F70;">연남동 · 쫄깃한 수타면, 맑은 국물</span><span style="font-size: 12px; color: #7A6F70;">출처 인스타 · 3주 전</span></div></a><a href="#" data-go="detail" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; color: inherit; text-decoration: none;"><div style="height: 150px; background: #EAD5D8; overflow: hidden;"><img alt="저녁 일곱시 대표 음식 사진" src="photos/steak.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 55% 55%;"/></div><div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; font-weight: 600;">저녁 일곱시</span><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #8E1B32; background: #F6E8EB;">예약함 11/14</span></div><span style="font-size: 13px; color: #7A6F70;">망원동 · 와인 한 잔 곁들이기 좋은 비스트로</span><span style="font-size: 12px; color: #7A6F70;">출처 카카오맵 · 40일 전</span></div></a><a href="#" data-go="detail" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; color: inherit; text-decoration: none;"><div style="height: 150px; background: #F2D3AE; overflow: hidden;"><img alt="불가마 대표 음식 사진" src="photos/pizza.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%;"/></div><div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; font-weight: 600;">불가마</span><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #7A6F70; background: #F3EDE8;">안 가 봄</span></div><span style="font-size: 13px; color: #7A6F70;">성수동 · 화덕피자 · 파스타</span><span style="font-size: 12px; color: #7A6F70;">출처 인스타 · 2달 전</span></div></a><a href="#" data-go="detail" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; overflow: hidden; color: inherit; text-decoration: none;"><div style="height: 150px; background: #EAD5D8; overflow: hidden;"><img alt="느린 칼국수 대표 음식 사진" src="photos/black.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%;"/></div><div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 16px; font-weight: 600;">느린 칼국수</span><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #7A6F70; background: #F3EDE8;">안 가 봄</span></div><span style="font-size: 13px; color: #7A6F70;">서촌 · 손칼국수</span><span style="font-size: 12px; color: #7A6F70;">출처 인스타 · 2달 전</span></div></a></div>
+</div></section>
+<section id="v-map" data-view hidden><div style="flex: 1; display: flex; height: calc(100vh - 64px); min-height: 640px;">
+<div style="width: 400px; flex: none; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; gap: 14px; background: #FBF8F4; border-right: 1px solid #ECE5E1; overflow: hidden;">
+<div style="display: flex; gap: 6px;"><span style="display: flex; align-items: center; gap: 2px; padding: 7px 14px; border-radius: 18px; font-size: 13px; background: #F6E8EB; border: 1px solid #8E1B32; color: #6B1225; font-weight: 500;">예약 가능</span><span style="display: flex; align-items: center; gap: 2px; padding: 7px 14px; border-radius: 18px; font-size: 13px; background: #FFFFFF; border: 1px solid #ECE5E1;">AI 추천</span><span style="display: flex; align-items: center; gap: 2px; padding: 7px 14px; border-radius: 18px; font-size: 13px; background: #FFFFFF; border: 1px solid #ECE5E1;">카테고리<svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" viewbox="0 0 24 24" width="12"><path d="m6 9 6 6 6-6"></path></svg></span></div>
+<div style="background: #FFFFFF; border: 1px solid #8E1B32; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; gap: 12px;"><div style="width: 64px; height: 64px; flex: none; border-radius: 10px; background: #F4E4C9; overflow: hidden;"><img alt="오후의 면 대표 음식 사진" src="photos/ramen.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 78%;"/></div><div style="display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 16px; font-weight: 600;">오후의 면</span><span style="font-size: 13px; color: #7A6F70;">연남동 · 수타면 · 인스타에서 저장</span><span style="display: flex; align-items: center; gap: 4px; font-size: 13px; color: #8E1B32;"><svg aria-hidden="true" fill="currentColor" height="12" viewbox="0 0 24 24" width="12"><path d="M12 2l2.2 6.3L20.5 10l-6.3 1.8L12 18l-2.2-6.2L3.5 10l6.3-1.7z"></path></svg>토 12/5 12시 2명 예약 가능</span></div></div>
+<div style="display: flex; gap: 8px;"><span style="padding: 6px 12px; border-radius: 8px; border: 1px solid #ECE5E1; background: #FFFFFF; font-size: 13px;">12:00</span><span style="padding: 6px 12px; border-radius: 8px; border: 1px solid #ECE5E1; background: #FFFFFF; font-size: 13px;">12:30</span><span style="padding: 6px 12px; border-radius: 8px; border: 1px solid #ECE5E1; background: #FFFFFF; font-size: 13px;">13:00</span></div>
+<div style="border-top: 1px solid #ECE5E1; padding-top: 12px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #7A6F70;"><span style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; border: 1px solid #ECE5E1; border-radius: 16px; color: #231C1D; font-weight: 500;"><span style="width: 8px; height: 8px; border-radius: 4px; background: #2F6FED;"></span>출발 · 내 위치</span><span style="flex-grow: 1;">회사 · 집 · 직접 입력</span><span style="font-weight: 600; color: #231C1D;">1.4km</span></div>
+<div style="display: flex; gap: 6px;"><span style="flex: 1; text-align: center; padding: 8px 0; border-radius: 8px; background: #F6E8EB; color: #8E1B32; font-size: 13px; font-weight: 600;">대중교통 18분</span><span style="flex: 1; text-align: center; padding: 8px 0; border-radius: 8px; border: 1px solid #ECE5E1; font-size: 13px;">자동차 9분</span><span style="flex: 1; text-align: center; padding: 8px 0; border-radius: 8px; border: 1px solid #ECE5E1; font-size: 13px;">도보 22분</span></div>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #4A4041;"><span style="width: 16px; height: 16px; border-radius: 8px; background: #2E9E6A; color: #FFFFFF; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">2</span>합정 → 홍대입구 1정거장<span style="color: #7A6F70;">›</span>3번 출구 도보 7분</div></div>
+<div style="display: flex; gap: 8px;"><a href="#" data-go="detail" style="flex: 1; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid #8E1B32; color: #8E1B32; font-size: 14px; font-weight: 600; text-decoration: none;">길찾기</a><a href="#" data-go="detail" style="flex: 1; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #8E1B32; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none;">상세 보기</a></div>
 </div>
-<div class="bar"><div class="in"><button class="btn" id="reserve" disabled>대표 예약 요청하기 (체험)</button><div class="note">체험용이라 실제 예약은 되지 않아요</div></div></div>
-</main>
-
-<!-- 끝 -->
-<main id="v-end" hidden>
-<div><div class="eyebrow" id="endEyebrow"></div><h1 id="endTitle"></h1></div>
-<div class="card"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="small" id="endMsg"></div></div>
-<div class="card sec"><h2>이 과정이 어땠나요?</h2><div class="fb" data-group="fb" data-single="1"><button class="chip" aria-pressed="false">쉬웠어요</button><button class="chip" aria-pressed="false">보통이에요</button><button class="chip" aria-pressed="false">헷갈렸어요</button></div>
-<div class="small" id="fbThanks" hidden>의견 고마워요!</div></div>
-<div class="links"><button class="btn sub" id="again">처음부터 다시 체험하기</button></div>
-</main>
-
-<footer>이 페이지는 모아밥 프로토타입 체험 버전이에요. 식당과 투표 수는 샘플이고, 예약은 실제로 이루어지지 않아요. 입력한 조건은 서버에 저장되지 않고, 서비스 개선을 위해 화면 이동과 버튼 클릭 같은 이용 기록만 수집해요. 이름·연락처는 수집하지 않아요. <a href="https://kkj3745.github.io/moabap-privacy/" target="_blank" rel="noopener">개인정보처리방침</a></footer>
+<div style="font-size: 13px; font-weight: 600; color: #7A6F70;">이 지역 저장한 맛집 5곳</div>
+<a href="#" data-go="detail" style="display: flex; align-items: center; gap: 12px; padding: 10px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 14px; color: inherit; text-decoration: none;"><div style="width: 52px; height: 52px; flex: none; border-radius: 10px; background: #EAD5D8; overflow: hidden;"><img alt="저녁 일곱시 대표 음식 사진" src="photos/steak.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 55% 55%;"/></div><div style="flex-grow: 1; display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 15px; font-weight: 600;">저녁 일곱시</span><span style="font-size: 12px; color: #7A6F70;">망원동 · 비스트로</span></div><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #8E1B32; background: #F6E8EB;">예약함 11/14</span></a>
+<a href="#" data-go="detail" style="display: flex; align-items: center; gap: 12px; padding: 10px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 14px; color: inherit; text-decoration: none;"><div style="width: 52px; height: 52px; flex: none; border-radius: 10px; background: #F2D3AE; overflow: hidden;"><img alt="불가마 대표 음식 사진" src="photos/pizza.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%;"/></div><div style="flex-grow: 1; display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 15px; font-weight: 600;">불가마</span><span style="font-size: 12px; color: #7A6F70;">성수동 · 화덕피자 · 파스타</span></div><span style="font-size: 12px; font-weight: 600; border-radius: 6px; padding: 2px 8px; color: #7A6F70; background: #F3EDE8;">안 가 봄</span></a>
 </div>
-<div class="toast" id="toast" hidden></div>
+<div style="flex-grow: 1; position: relative; overflow: hidden;">
+<svg aria-label="저장한 가게 6곳이 핀으로, 지하철 노선과 버스정류장이 함께 표시된 지도" preserveaspectratio="xMidYMid slice" role="img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" viewbox="-60 90 510 460">
+<rect fill="#EFE8DF" height="900" width="1000" x="-300" y="-100"></rect>
+<rect fill="#DCE6D0" height="104" rx="18" width="130" x="232" y="96"></rect>
+<path d="M-300 590 C-60 520 210 600 700 520" fill="none" stroke="#CFE0E8" stroke-width="48"></path>
+<path d="M-100 130 L490 165 M-100 470 L490 445 M62 0 L36 760 M340 0 L354 760" fill="none" stroke="#FFFFFF" stroke-width="5"></path>
+<path d="M-100 255 L490 310 M128 0 L153 760 M286 0 L258 760 M-100 412 L490 390" fill="none" stroke="#FFFFFF" stroke-width="11"></path>
+<text fill="#8C7F7D" font-size="12" x="40" y="262">연남동</text>
+<text fill="#8C7F7D" font-size="12" x="196" y="290">망원동</text>
+<text fill="#8C7F7D" font-size="12" x="296" y="372">성수동</text>
+<g id="transit-layer">
+<path d="M-100 372 L110 330 L152 300 L200 296 L262 322 L335 338 L500 346" fill="none" stroke="#2E9E6A" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.6" stroke-width="1.5"></path>
+<path d="M110 330 L92 386 L66 452 L44 530" fill="none" stroke="#A05A2C" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.6" stroke-width="1.5"></path>
+<path d="M300 -10 L262 70 L222 128 L180 148 L100 152 L-10 142" fill="none" stroke="#EF7C1C" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.6" stroke-width="1.5"></path>
+<circle cx="152" cy="300" fill="#FFFFFF" r="4" stroke="#2E9E6A" stroke-width="2"></circle>
+<text fill="#7A6F70" font-size="9" font-weight="500" paint-order="stroke" stroke="#EFE8DF" stroke-width="3" text-anchor="middle" x="152" y="318">홍대입구</text>
+<circle cx="262" cy="322" fill="#FFFFFF" r="4" stroke="#2E9E6A" stroke-width="2"></circle>
+<circle cx="335" cy="338" fill="#FFFFFF" r="4" stroke="#2E9E6A" stroke-width="2"></circle>
+<text fill="#7A6F70" font-size="9" font-weight="500" paint-order="stroke" stroke="#EFE8DF" stroke-width="3" text-anchor="middle" x="335" y="354">성수</text>
+<circle cx="110" cy="330" fill="#FFFFFF" r="5.5" stroke="#7A6F70" stroke-width="2"></circle>
+<text fill="#7A6F70" font-size="9" font-weight="500" paint-order="stroke" stroke="#EFE8DF" stroke-width="3" text-anchor="middle" x="110" y="351">합정</text>
+<circle cx="66" cy="452" fill="#FFFFFF" r="4" stroke="#A05A2C" stroke-width="2"></circle>
+<text fill="#7A6F70" font-size="9" font-weight="500" paint-order="stroke" stroke="#EFE8DF" stroke-width="3" text-anchor="start" x="76" y="466">마포구청</text>
+<circle cx="222" cy="128" fill="#FFFFFF" r="4" stroke="#EF7C1C" stroke-width="2"></circle>
+<text fill="#7A6F70" font-size="9" font-weight="500" paint-order="stroke" stroke="#EFE8DF" stroke-width="3" text-anchor="end" x="213" y="132">을지로3가</text>
+<g opacity="0.8" transform="translate(46 262) scale(0.75)"><rect fill="#2F6FED" height="16" rx="5" stroke="#FFFFFF" stroke-width="2" width="16" x="-8" y="-8"></rect><rect fill="#FFFFFF" height="5.5" rx="1.2" width="7" x="-3.5" y="-4"></rect><circle cx="-2" cy="3.2" fill="#FFFFFF" r="1"></circle><circle cx="2" cy="3.2" fill="#FFFFFF" r="1"></circle></g>
+<g opacity="0.8" transform="translate(140 398) scale(0.75)"><rect fill="#2F6FED" height="16" rx="5" stroke="#FFFFFF" stroke-width="2" width="16" x="-8" y="-8"></rect><rect fill="#FFFFFF" height="5.5" rx="1.2" width="7" x="-3.5" y="-4"></rect><circle cx="-2" cy="3.2" fill="#FFFFFF" r="1"></circle><circle cx="2" cy="3.2" fill="#FFFFFF" r="1"></circle></g>
+<g opacity="0.8" transform="translate(274 404) scale(0.75)"><rect fill="#2F6FED" height="16" rx="5" stroke="#FFFFFF" stroke-width="2" width="16" x="-8" y="-8"></rect><rect fill="#FFFFFF" height="5.5" rx="1.2" width="7" x="-3.5" y="-4"></rect><circle cx="-2" cy="3.2" fill="#FFFFFF" r="1"></circle><circle cx="2" cy="3.2" fill="#FFFFFF" r="1"></circle></g>
+<g opacity="0.8" transform="translate(258 254) scale(0.75)"><rect fill="#2F6FED" height="16" rx="5" stroke="#FFFFFF" stroke-width="2" width="16" x="-8" y="-8"></rect><rect fill="#FFFFFF" height="5.5" rx="1.2" width="7" x="-3.5" y="-4"></rect><circle cx="-2" cy="3.2" fill="#FFFFFF" r="1"></circle><circle cx="2" cy="3.2" fill="#FFFFFF" r="1"></circle></g>
+<g opacity="0.8" transform="translate(350 388) scale(0.75)"><rect fill="#2F6FED" height="16" rx="5" stroke="#FFFFFF" stroke-width="2" width="16" x="-8" y="-8"></rect><rect fill="#FFFFFF" height="5.5" rx="1.2" width="7" x="-3.5" y="-4"></rect><circle cx="-2" cy="3.2" fill="#FFFFFF" r="1"></circle><circle cx="2" cy="3.2" fill="#FFFFFF" r="1"></circle></g>
+<g opacity="0.8" transform="translate(150 70) scale(0.75)"><rect fill="#2F6FED" height="16" rx="5" stroke="#FFFFFF" stroke-width="2" width="16" x="-8" y="-8"></rect><rect fill="#FFFFFF" height="5.5" rx="1.2" width="7" x="-3.5" y="-4"></rect><circle cx="-2" cy="3.2" fill="#FFFFFF" r="1"></circle><circle cx="2" cy="3.2" fill="#FFFFFF" r="1"></circle></g>
+<g opacity="0.8" transform="translate(206 330) scale(0.75)"><rect fill="#2F6FED" height="16" rx="5" stroke="#FFFFFF" stroke-width="2" width="16" x="-8" y="-8"></rect><rect fill="#FFFFFF" height="5.5" rx="1.2" width="7" x="-3.5" y="-4"></rect><circle cx="-2" cy="3.2" fill="#FFFFFF" r="1"></circle><circle cx="2" cy="3.2" fill="#FFFFFF" r="1"></circle></g>
+<text fill="#5B86D6" font-size="9" font-weight="500" paint-order="stroke" stroke="#EFE8DF" stroke-width="3" x="60" y="244">연남동 입구</text>
+<text fill="#5B86D6" font-size="9" font-weight="500" paint-order="stroke" stroke="#EFE8DF" stroke-width="3" text-anchor="middle" x="140" y="420">망원시장</text>
+</g>
+<path d="M76 330 C62 292 112 262 98 220" fill="none" stroke="#2F6FED" stroke-dasharray="1 7" stroke-linecap="round" stroke-width="3"></path>
+<circle cx="76" cy="330" fill="#2F6FED" fill-opacity="0.15" r="18"></circle><circle cx="76" cy="330" fill="#2F6FED" r="7" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="170" cy="262" fill="#8E1B32" r="11" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="310" cy="250" fill="#8E1B32" r="11" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="230" cy="160" fill="#8E1B32" r="11" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="230" cy="400" fill="#8E1B32" r="11" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="160" cy="112" fill="#8E1B32" r="11" stroke="#FFFFFF" stroke-width="3"></circle>
+<rect fill="#FFFFFF" height="26" rx="13" stroke="#ECE5E1" width="84" x="56" y="150"></rect>
+<text fill="#231C1D" font-size="12" font-weight="600" text-anchor="middle" x="98" y="167">오후의 면</text>
+<circle cx="98" cy="200" fill="#8E1B32" r="16" stroke="#FFFFFF" stroke-width="4"></circle>
+<circle cx="98" cy="200" fill="#F2C14E" r="5"></circle>
+</svg>
+<span style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 16px; border-radius: 17px; background: #FFFFFF; border: 1px solid #ECE5E1; font-size: 13px;"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M20 12a8 8 0 1 1-2.5-5.8M20 4v5h-5"></path></svg>이 지역 다시 찾기</span>
+<button aria-label="지하철·버스 표시" style="position: absolute; right: 20px; bottom: 76px; width: 44px; height: 44px; border-radius: 22px; border: 1px solid #8E1B32; background: #FFFFFF; display: flex; align-items: center; justify-content: center; color: #8E1B32;" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="m12 3 9 5-9 5-9-5z"></path><path d="m3 13 9 5 9-5"></path></svg></button>
+<button aria-label="내 위치로 이동" style="position: absolute; right: 20px; bottom: 20px; width: 44px; height: 44px; border-radius: 22px; border: 1px solid #ECE5E1; background: #FFFFFF; display: flex; align-items: center; justify-content: center; color: #2F6FED;" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></button>
+</div>
+</div></section>
+<section id="v-together" data-view hidden>
+<div style="flex: 1;  display: flex; gap: 40px; padding: 28px 48px 0;padding-bottom: 64px;"><div style="width: 440px; flex: none; display: flex; flex-direction: column; gap: 14px;">
+<div><h1 style="margin: 0; font-size: 26px; font-weight: 700;">같이밥</h1><p style="margin: 4px 0 0; font-size: 14px; color: #7A6F70;">친구들 조건을 모아 AI가 후보를 골라 드려요</p></div>
+<div style="display: flex; align-items: center; gap: 8px;"><h2 style="margin: 0; font-size: 18px; font-weight: 700;">진행 중인 모임</h2><span style="font-size: 14px; font-weight: 700; color: #8E1B32;">2</span></div>
+<div style="padding: 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; display: flex; flex-direction: column; gap: 10px;"><div style="display: flex; justify-content: space-between; align-items: flex-start;"><div><div style="font-size: 16px; font-weight: 600;">토요일 저녁 모임</div><div style="font-size: 13px; color: #7A6F70;">4명 · 초대 링크 공유함</div></div><span style="font-size: 12px; font-weight: 600; color: #8E1B32; background: #F6E8EB; border-radius: 6px; padding: 3px 8px;">조건 모으는 중</span></div><div style="display: flex; flex-direction: column; gap: 6px;"><div style="display: flex; gap: 4px;"><span style="flex: 1; height: 4px; border-radius: 2px; background: #8E1B32;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #8E1B32;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #ECE5E1;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #ECE5E1;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #ECE5E1;"></span></div><div style="display: flex; justify-content: space-between; font-size: 12px;"><span style="font-weight: 600; color: #8E1B32;">2/5 각자 조건 고르기</span><span style="color: #7A6F70;">3/4명 입력 완료</span></div></div><div style="font-size: 13px; color: #7A6F70;">현우 님을 기다리는 중 · 내 저장 포함 2명</div><a href="#" data-go="together" style="height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #8E1B32; color: #FFFFFF; font-size: 13px; font-weight: 600; text-decoration: none;">후보 미리 보기</a></div>
+<div style="padding: 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; display: flex; flex-direction: column; gap: 10px;"><div style="display: flex; justify-content: space-between; align-items: flex-start;"><div><div style="font-size: 16px; font-weight: 600;">주말 브런치</div><div style="font-size: 13px; color: #7A6F70;">3명 · 성수</div></div><span style="font-size: 12px; font-weight: 600; color: #231C1D; background: #F2C14E; border-radius: 6px; padding: 3px 8px;">투표 중</span></div><div style="display: flex; flex-direction: column; gap: 6px;"><div style="display: flex; gap: 4px;"><span style="flex: 1; height: 4px; border-radius: 2px; background: #8E1B32;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #8E1B32;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #8E1B32;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #8E1B32;"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #8E1B32;"></span></div><div style="display: flex; justify-content: space-between; font-size: 12px;"><span style="font-weight: 600; color: #8E1B32;">5/5 투표·대표 예약</span><span style="color: #7A6F70;">2/3명 투표</span></div></div><div style="font-size: 13px; color: #7A6F70;">AI 추천 5곳 · 1위 불가마 · 11/22(일) 11시 예약 가능</div></div>
+<a href="#" data-go="together" style="height: 48px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; background: #8E1B32; color: #FFFFFF; font-size: 15px; font-weight: 600; text-decoration: none;"><svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-width="2.2" viewbox="0 0 24 24" width="18"><path d="M12 5v14M5 12h14"></path></svg>새 모임 만들기</a>
+</div><div id="tgPanel" style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; padding: 22px 24px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 20px; align-self: flex-start;"></div></div>
+</section>
+<section id="v-detail" data-view hidden>
+<div style="flex: 1;  display: flex; gap: 40px; padding: 28px 48px 0;padding-bottom: 64px;"><div style="width: 560px; flex: none; display: flex; flex-direction: column; gap: 12px;" id="dLeft"></div><div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; padding-top: 28px;" id="dRight"></div></div>
+</section>
+
+<div id="foot">모아밥 프로토타입 체험 버전이에요. 식당·투표 수·예약은 모두 샘플이고 실제 예약은 이루어지지 않아요. 입력한 조건은 서버에 저장되지 않으며, 서비스 개선을 위해 화면 이동과 버튼 클릭 같은 이용 기록만 수집해요(이름·연락처는 수집하지 않아요). <a href="https://kkj3745.github.io/moabap-privacy/" target="_blank" rel="noopener">개인정보처리방침</a> · <a href="https://github.com/kkj3745/moabap-web" target="_blank" rel="noopener">소스 코드</a></div>
+<div id="ovl" hidden><div id="modal" role="dialog" aria-modal="true"></div></div>
+<div id="toast" hidden></div>
 
 <script>
+if (innerWidth < 860 && !/[?&]d=1/.test(location.search)) { location.replace('m.html' + location.search); }
+
 /* ===== 설정: 키를 넣으면 전송이 켜져요. 비어 있으면 콘솔에만 기록돼요 ===== */
 const CONFIG = {
   AMPLITUDE_API_KEY: 'ab168d392848dcbebffc7ce9571c9b4b',
   GA4_MEASUREMENT_ID: 'G-76VT3EXNTD',
-  INSTAGRAM_URL: '',   // 예: 'https://www.instagram.com/계정/' (비어 있으면 버튼 숨김)
   APP_STORE_URL: '',   // 앱 출시 후 App Store 주소 (비어 있으면 "심사 중" 안내)
 };
 
@@ -158,13 +185,12 @@ function assign(key, opts, forced){
 }
 const forced = !!(qs.get('v_reason')||qs.get('v_chip')||qs.get('v_mylist'));
 const VAR = {
-  reason_variant: assign('v_reason',['with','without'],qs.get('v_reason')),   // 가설1: 추천 카드 이유 문구
-  chip_variant:   assign('v_chip',['chip','detail'],qs.get('v_chip')),       // 가설2: 카드에 시간 칩 바로 노출
-  mylist_variant: assign('v_mylist',['on','off'],qs.get('v_mylist'))         // 가설3: 내 저장 포함 가능
+  reason_variant: assign('v_reason',['with','without'],qs.get('v_reason')),
+  chip_variant:   assign('v_chip',['chip','detail'],qs.get('v_chip')),
+  mylist_variant: assign('v_mylist',['on','off'],qs.get('v_mylist'))
 };
 const base = Object.assign({ platform:'web', room_id:room, participant_id:pid, src:src, forced_variant:forced }, VAR);
 
-/* ----- SDK 로드 (키가 있을 때만) ----- */
 window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
 function loadScript(u, cb){ const s=document.createElement('script'); s.async=true; s.src=u; if(cb) s.onload=cb; document.head.appendChild(s); }
@@ -178,8 +204,6 @@ if (CONFIG.AMPLITUDE_API_KEY) {
     try { window.amplitude.init(CONFIG.AMPLITUDE_API_KEY, { autocapture:false, defaultTracking:{ pageViews:true, sessions:true } }); window.amplitude.setUserId && window.amplitude.setUserId(pid); } catch(e){}
   });
 }
-
-/* ----- 이벤트 전송: Amplitude와 GA4에 같은 이름으로 ----- */
 window.__events = [];
 function track(name, props){
   const p = Object.assign({}, base, props||{});
@@ -190,147 +214,217 @@ function track(name, props){
 }
 
 /* ----- 샘플 데이터 ----- */
-const C = [
- {id:'dinner',n:'저녁 일곱시',m:'망원동 · 비스트로',img:'steak',own:1,why:'가능한 날 4/4 · 양식 3명 · 모두 20분 안',times:['18:00','19:00'],v:2,q:'망원동 비스트로'},
- {id:'garden',n:'정원 식탁',m:'합정동 · 한식 다이닝',img:'hansik',why:'가능한 날 4/4 · 한식 2명 · 모두 20분 안',times:['18:00','19:00'],v:1,q:'합정동 한식 다이닝'},
- {id:'night',n:'밤의 국수',m:'망원동 · 국수 · 이자카야',img:'black',why:'가능한 날 3/4 · 일식 2명 · 모두 20분 안',times:['19:00'],v:0,q:'망원동 이자카야'},
- {id:'noodle',n:'오후의 면',m:'연남동 · 수타면',img:'ramen',own:1,why:'가능한 날 3/4 · 아시안 2명 · 모두 30분 안',times:['12:00'],v:0,q:'연남동 수타면'},
- {id:'alley',n:'골목 파스타',m:'연남동 · 생면 파스타',img:'plate',why:'가능한 날 4/4 · 양식 3명 · 모두 30분 안',times:['20:00'],v:0,q:'연남동 파스타'}
-];
-
-/* ----- 화면 ----- */
+const DIN='저녁 일곱시';
+const P = {
+  dinner:{n:DIN,area:'망원동',cat:'비스트로',desc:'와인 한 잔 곁들이기 좋은 곳',src:'카카오맵',saved:'40일 전 저장',memo:'와인 좋아하는 친구랑 가기 좋을 듯. 4명이면 창가 자리.',hours:'17:00 – 23:00 · 월 휴무',loc:'서울 마포구 망원동',link:'place.map.kakao.com/…',img:'steak',pos:'55% 55%',times:['18:00','19:00'],q:'망원동 비스트로',own:1,why:'가능한 날 4/4 · 양식 3명 · 모두 20분 안',av:'12/5(토) 19시',v:2},
+  garden:{n:'정원 식탁',area:'합정동',cat:'한식 다이닝',desc:'조용한 한식 코스',img:'hansik',pos:'50% 50%',times:['18:00','19:00'],q:'합정동 한식 다이닝',why:'가능한 날 4/4 · 한식 2명 · 모두 20분 안',av:'12/5(토) 18시·19시',v:1},
+  night:{n:'밤의 국수',area:'망원동',cat:'국수 · 이자카야',desc:'늦게까지 하는 국수집',img:'black',pos:'50% 50%',times:['19:00'],q:'망원동 이자카야',why:'가능한 날 3/4 · 일식 2명 · 모두 20분 안',av:'12/5(토) 19시',v:0},
+  noodle:{n:'오후의 면',area:'연남동',cat:'수타면',desc:'쫄깃한 수타면, 맑은 국물',src:'인스타',saved:'3주 전 저장',memo:'점심에 줄이 짧대. 평일 낮에 가기.',hours:'11:30 – 20:00 · 화 휴무',loc:'서울 마포구 연남동',link:'instagram.com/reel/…',img:'ramen',pos:'50% 50%',times:['12:00','12:30','13:00'],q:'연남동 수타면',own:1,why:'가능한 날 3/4 · 아시안 2명 · 모두 30분 안',av:'12/6(일) 12시',v:0},
+  alley:{n:'골목 파스타',area:'연남동',cat:'생면 파스타',desc:'생면 파스타 전문',img:'plate',pos:'50% 50%',times:['20:00'],q:'연남동 파스타',why:'가능한 날 4/4 · 양식 3명 · 모두 30분 안',av:'12/5(토) 20시',v:0},
+  toad:{n:'두꺼비',area:'을지로',cat:'노포 전골',desc:'40년 된 노포 전골',src:'네이버지도',saved:'5일 전 저장',memo:'',hours:'11:00 – 21:00 · 일 휴무',loc:'서울 중구 을지로',link:'naver.me/…',img:'jeongol',pos:'45% 50%',times:['18:00','19:00'],q:'을지로 노포 전골'},
+  pita:{n:'피타피타',area:'해방촌',cat:'피타 샌드위치, 후무스',desc:'피타 샌드위치, 후무스',src:'인스타',saved:'2일 전 저장',memo:'',hours:'11:00 – 21:00',loc:'서울 용산구 해방촌',link:'instagram.com/reel/…',img:'sandwich',pos:'50% 55%',times:['12:00','13:00'],q:'해방촌 샌드위치'},
+  fire:{n:'불가마',area:'성수동',cat:'화덕피자 · 파스타',desc:'화덕피자 · 파스타',src:'인스타',saved:'2달 전 저장',memo:'',hours:'11:30 – 22:00',loc:'서울 성동구 성수동',link:'instagram.com/reel/…',img:'pizza',pos:'50% 50%',times:['18:00','19:30'],q:'성수동 화덕피자'},
+  slow:{n:'느린 칼국수',area:'서촌',cat:'손칼국수',desc:'손칼국수',src:'인스타',saved:'2달 전 저장',memo:'',hours:'11:00 – 20:00',loc:'서울 종로구 서촌',link:'instagram.com/reel/…',img:'black',pos:'50% 50%',times:['12:00','18:00'],q:'서촌 칼국수'}
+};
+const NAMES = Object.keys(P).map(k=>[P[k].n,k]).sort((a,b)=>b[0].length-a[0].length);
+const RECO = ['dinner','garden','night','noodle','alley'];
 const $ = s => document.querySelector(s);
-const VIEWS = ['home','cond','cands','detail','end'];
-const CRUMB = {home:'소개',cond:'같이밥 · 조건',cands:'같이밥 · 투표',detail:'후보 상세',end:'완료'};
-const state = { dates:[], foods:[], dist:null, inc:false, vote:null, started:false, cur:null, time:null, viaChip:false, reserved:false, steps:0 };
-let view='home';
-function show(v){ view=v; VIEWS.forEach(x=>{ $('#v-'+x).hidden = x!==v; }); $('#back').hidden = v==='home'; $('#crumb').textContent = CRUMB[v]; window.scrollTo(0,0); track('screen_viewed',{screen:v}); }
-function toast(t){ const e=$('#toast'); e.textContent=t; e.hidden=false; setTimeout(()=>{e.hidden=true;},2200); }
-$('#back').addEventListener('click', ()=>{ const prev={cond:'home',cands:'cond',detail:'cands',end:'cands'}[view]; if(prev) show(prev); });
+const $$ = s => Array.from(document.querySelectorAll(s));
+const state = { view:'home', dates:[], foods:[], dist:null, inc:false, started:false, saved:[], vote:null, voted:false, cur:null, time:null, viaChip:false, steps:0, hostName:null };
+const showReason = () => VAR.reason_variant==='with';
+const showTags = () => VAR.mylist_variant==='on';
 
-const nm = qs.get('name'); if (nm) { $('#roomName').textContent = nm; $('#roomName2').textContent = nm; }
-const host = qs.get('host'); if (host) { $('#hello').textContent = host.slice(0,10)+' 님이 같이밥에 초대했어요'; $('#eyebrow').textContent = '앱 설치 없이 1분이면 끝나요'; track('group_link_opened',{guest:true}); }
-if (CONFIG.INSTAGRAM_URL){ const a=$('#l-insta'); a.href=CONFIG.INSTAGRAM_URL; a.hidden=false; }
-if (VAR.mylist_variant==='off') $('#inc').hidden = true;
+function toast(t){ const e=$('#toast'); e.textContent=t; e.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>{e.hidden=true;},2400); }
 
-/* 홈 */
-$('#go').addEventListener('click', ()=>{ track('experience_started'); show('cond'); });
-$('#install').addEventListener('click', ()=>{
-  track('install_button_clicked',{store:'ios', live:!!CONFIG.APP_STORE_URL});
-  if (CONFIG.APP_STORE_URL) window.open(CONFIG.APP_STORE_URL,'_blank','noopener'); else toast('iOS 앱은 App Store 심사 중이에요');
-});
-$('#l-insta').addEventListener('click', ()=>track('outbound_clicked',{target:'instagram',where:'home'}));
-$('#l-naver').addEventListener('click', ()=>track('outbound_clicked',{target:'naver_map',where:'home'}));
+/* ----- 화면 전환 ----- */
+function go(v, opt){
+  state.view=v;
+  $$('[data-view]').forEach(s=>{ s.hidden = s.id!=='v-'+v; });
+  $$('[data-nav]').forEach(a=>a.classList.toggle('on', a.dataset.nav===(v==='detail'?'saved':v)));
+  if (v==='together') renderPanel();
+  window.scrollTo(0,0);
+  if(!(opt&&opt.silent)) track('screen_viewed',{screen:v});
+}
 
+/* ----- 같이밥 패널 ----- */
+function ranked(){ return RECO.slice().sort((a,b)=>votesOf(b)-votesOf(a)||RECO.indexOf(a)-RECO.indexOf(b)); }
+function votesOf(id){ return P[id].v + (state.vote===id?1:0); }
+function renderPanel(){
+  const order=ranked(), top=order[0];
+  const steps=['1 모임 만들기','2 각자 조건','3 내 저장 포함','4 AI 추천 5곳','5 투표·대표 예약'];
+  let h='<div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:13px;font-weight:600;color:#8E1B32">✦ AI 추천 · 모두의 조건이 겹치는 곳</div><div style="font-size:22px;font-weight:700;margin-top:4px">토요일 저녁 모임 · AI 추천 5곳</div></div><div style="font-size:13px;color:#7A6F70">'+(state.vote?'4':'3')+'/4명 투표</div></div>';
+  h+='<div style="display:flex;gap:8px">'+steps.map(s=>'<div style="flex:1"><div style="height:4px;border-radius:2px;background:#8E1B32"></div><div style="font-size:12px;color:#8E1B32;margin-top:6px;font-weight:600">'+s+'</div></div>').join('')+'</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px">'+order.map((id,i)=>{
+    const c=P[id], on=state.vote===id;
+    const chips = VAR.chip_variant==='chip' ? '<div style="display:flex;gap:6px;margin-top:6px">'+c.times.map(t=>'<button class="chip sm" data-chip="'+t+'">'+t+'</button>').join('')+'</div>' : '';
+    const why = showReason() ? '<div style="font-size:13px;color:#6B1225;margin-top:3px">✦ '+c.why+'</div>' : '';
+    return '<div class="rw'+(i===0?' top':'')+'" data-open="'+id+'"><div style="width:22px;font-size:18px;font-weight:700;color:'+(i===0?'#8E1B32':'#7A6F70')+'">'+(i+1)+'</div><img src="photos/'+c.img+'.jpg" alt="'+c.n+' 대표 음식 사진" style="width:78px;height:78px;border-radius:10px;object-fit:cover;flex:none"><div style="flex:1;min-width:0"><div><b style="font-size:17px">'+c.n+'</b>'+(c.own&&showTags()?'<span class="tag">내 리스트</span>':'')+'<span style="font-size:13px;color:#7A6F70"> · '+c.area+' · '+c.cat+'</span></div>'+why+chips+'<div style="font-size:12.5px;color:#7A6F70;margin-top:4px">예약 가능 '+c.av+'</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><b style="font-size:16px;color:#8E1B32">'+votesOf(id)+'표</b><button class="vb'+(on?' on':'')+'" data-vote="'+id+'" data-rank="'+(RECO.indexOf(id)+1)+'">'+(on?'내 투표':'투표하기')+'</button></div></div>';
+  }).join('')+'</div>';
+  h+='<button class="btn" data-act="reserveTop">1위 '+P[top].n+' 대표 예약하기</button>';
+  h+='<button class="btn sub" data-act="finishVote" '+(state.vote&&!state.voted?'':'disabled')+'>'+(state.voted?'투표를 마쳤어요':'내 투표 마치기')+'</button>';
+  h+='<div style="text-align:center;font-size:13px;color:#7A6F70">방장이 예약하면 참여자 모두에게 공유돼요</div>';
+  $('#tgPanel').innerHTML=h;
+}
 
-/* 링크로 맛집 저장 (체험: 실제 인식 없이 샘플 맛집이 저장돼요) */
-state.saved=[];
+/* ----- 상세 ----- */
+function openDetail(id, chipTime, from){
+  const c=P[id]; state.cur=id; state.time=chipTime||null; state.viaChip=!!chipTime; state.steps=0;
+  const ri=RECO.indexOf(id);
+  track('reco_card_clicked',{ place_id:id, rank:ri+1||null, has_reason:showReason()&&ri>-1, via_time_chip:!!chipTime, from:from||state.view, in_reco:ri>-1 });
+  $('#dLeft').innerHTML='<a href="#" data-go="back" style="font-size:13px;color:#7A6F70;text-decoration:none">‹ 돌아가기</a><div style="height:420px;border-radius:20px;background:#EAD5D8;overflow:hidden"><img alt="'+c.n+' 대표 음식 사진" src="photos/'+c.img+'.jpg" style="display:block;width:100%;height:100%;object-fit:cover;object-position:'+(c.pos||'50% 50%')+'"></div>';
+  const row=(a,b,last)=>'<div style="display:flex;justify-content:space-between;min-height:44px;align-items:center;padding:0 16px;'+(last?'':'border-bottom:1px solid #ECE5E1;')+'font-size:14px"><span style="color:#7A6F70">'+a+'</span><span>'+b+'</span></div>';
+  const bk='<svg aria-hidden="true" fill="#F2C14E" height="26" stroke="#C99A2E" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="26"><path d="M6 4h12v17l-6-4-6 4z"></path></svg>';
+  const lnk='display:flex;align-items:center;justify-content:center;gap:4px;height:44px;border-radius:10px;border:1px solid #ECE5E1;background:#fff;color:#231C1D;font-size:13px;font-weight:600;text-decoration:none;flex:1;cursor:pointer';
+  let r='<div><div style="display:flex;align-items:center;justify-content:space-between"><h1 style="margin:0;font-size:28px;font-weight:700">'+c.n+'</h1>'+bk+'</div><div style="font-size:14px;color:#7A6F70;margin-top:4px">'+c.area+' · '+c.cat+' · '+c.desc+'</div><div style="font-size:12px;color:#7A6F70;margin-top:2px">출처 '+(c.src||'모아밥 추천')+(c.saved?' · '+c.saved:'')+'</div></div>';
+  if(c.memo) r+='<div style="padding:12px 14px;background:#F6E8EB;border-radius:12px;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;font-weight:600;color:#6B1225">내 메모</span><span style="font-size:14px;color:#6B1225;line-height:1.5">'+c.memo+'</span></div>';
+  if(ri>-1 && showReason()) r+='<div style="padding:12px 14px;background:#fff;border:1px solid #EBCBD2;border-radius:12px;font-size:14px;color:#6B1225">✦ '+c.why+'</div>';
+  r+='<div style="display:flex;flex-direction:column;background:#fff;border:1px solid #ECE5E1;border-radius:16px">'+row('영업시간',c.hours||'11:00 – 21:00')+row('위치',c.loc||('서울 '+c.area))+row('저장한 링크','<span style="color:#8E1B32">'+(c.link||'naver.me/…')+'</span>',1)+'</div>';
+  r+='<div><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><b style="font-size:15px">예약 가능한 시간</b><span style="font-size:12px;color:#7A6F70">토 12/5 · 체험용 샘플</span></div><div id="dTimes" style="display:flex;gap:8px;flex-wrap:wrap">'+c.times.map(t=>'<button class="chip" data-time="'+t+'" aria-pressed="'+(t===chipTime)+'">'+t+'</button>').join('')+'</div></div>';
+  r+='<div style="display:flex;gap:8px"><a id="dBook" href="https://map.naver.com/p/search/'+encodeURIComponent(c.q+' 예약')+'" target="_blank" rel="noopener" style="'+lnk+'">예약 페이지 ↗</a><a href="#" data-act="call" style="'+lnk+'">전화하기</a><a id="dMap" href="https://map.naver.com/p/search/'+encodeURIComponent(c.q)+'" target="_blank" rel="noopener" style="'+lnk+'">지도에서 보기 ↗</a><a id="dInsta" href="https://www.instagram.com/explore/search/keywords/?q='+encodeURIComponent(c.q)+'" target="_blank" rel="noopener" style="'+lnk+'">인스타 후기 ↗</a></div>';
+  r+='<div style="display:flex;gap:8px"><a href="#" data-act="new" style="flex:1;display:flex;align-items:center;justify-content:center;height:48px;border-radius:12px;background:#fff;border:1px solid #ECE5E1;color:#231C1D;font-size:15px;font-weight:600;text-decoration:none">같이밥 만들기</a><a href="#" data-act="record" style="flex:1;display:flex;align-items:center;justify-content:center;height:48px;border-radius:12px;background:#8E1B32;color:#fff;font-size:15px;font-weight:600;text-decoration:none">예약 기록하기</a></div><div style="font-size:12px;color:#7A6F70;text-align:center">체험용이라 실제 예약은 되지 않아요</div>';
+  $('#dRight').innerHTML=r;
+  go('detail',{silent:false});
+}
+let lastView='home';
+function placeFrom(el){
+  const card=el.closest('a,div[data-open]')||el; const txt=card.textContent||'';
+  for(const [n,k] of NAMES){ if(txt.indexOf(n)>-1) return k; }
+  return 'dinner';
+}
+
+/* ----- 모달 ----- */
+function modal(html){ $('#modal').innerHTML=html; $('#ovl').hidden=false; }
+function closeModal(){ $('#ovl').hidden=true; }
+const X='<button data-act="close" style="align-self:flex-end;border:0;background:none;font-size:22px;color:#7A6F70;cursor:pointer;margin:-10px -8px -6px" aria-label="닫기">×</button>';
+
+function openAdd(){
+  modal(X+'<h2>링크로 맛집 저장</h2><div class="sub">인스타그램 릴스나 네이버 지도 링크를 붙여 넣으면 모아밥이 식당을 찾아 저장해 줘요. 체험 버전에서는 실제 인식 대신 샘플 맛집이 저장돼요.</div><input id="lnk" type="url" inputmode="url" placeholder="https://www.instagram.com/reel/..." aria-label="맛집 링크"><div class="sub" id="lnkMsg" hidden></div><div id="lnkList" style="display:flex;flex-direction:column;gap:8px"></div><button class="btn" data-act="saveLink">저장하기</button>');
+  state.saved.forEach(addSavedRow);
+  track('add_modal_opened');
+}
 function linkSource(u){
   if(/instagram\.com\/(reel|reels|p)\//i.test(u)) return 'instagram_reel';
   if(/(naver\.me|map\.naver\.com|naver\.com\/.*place)/i.test(u)) return 'naver';
   return null;
 }
-$('#saveLink').addEventListener('click', ()=>{
-  const u=$('#link').value.trim(), m=$('#linkMsg'); m.hidden=false;
-  const srcType=linkSource(u);
+function addSavedRow(id){ const c=P[id]; const l=$('#lnkList'); if(l) l.insertAdjacentHTML('beforeend','<div class="saved"><img src="photos/'+c.img+'.jpg" alt=""><div><b style="font-size:14px">'+c.n+'</b><div style="font-size:12px;color:#6B1225">'+c.area+' · '+c.cat+'</div></div></div>'); }
+function saveLink(){
+  const u=$('#lnk').value.trim(), m=$('#lnkMsg'); m.hidden=false;
   if(!u){ m.textContent='링크를 먼저 붙여 넣어 주세요.'; track('place_save_failed',{reason:'empty'}); return; }
-  if(!srcType){ m.textContent='인스타그램 릴스나 네이버 지도 링크를 넣어 주세요.'; track('place_save_failed',{reason:'unsupported_link'}); return; }
-  const pick = srcType==='naver' ? C[0] : C[3];
-  if(state.saved.indexOf(pick.id)>-1){ m.textContent='이미 저장한 곳이에요.'; return; }
-  state.saved.push(pick.id); state.inc = state.inc; 
-  m.textContent='저장했어요. (체험용 샘플 맛집이에요)';
-  $('#savedList').insertAdjacentHTML('beforeend','<div class="saved"><img src="photos/'+pick.img+'.jpg" alt=""><div><b>'+pick.n+'</b><span>'+pick.m+' · '+(srcType==='naver'?'네이버 지도':'인스타 릴스')+'에서 저장</span></div></div>');
-  $('#link').value='';
-  track('place_saved',{ place_id:pick.id, source:srcType, simulated:true, saved_count:state.saved.length });
-});
-
-/* 조건 */
-function started(){ if(!state.started){ state.started=true; track('conditions_started'); } }
-function refresh(){
-  const ok = state.dates.length && state.foods.length && state.dist;
-  $('#send').disabled = !ok;
-  $('#hint').textContent = ok ? '선택한 조건으로 후보를 골라 드려요' : '날짜, 음식, 거리를 하나씩 골라 주세요';
+  const s=linkSource(u);
+  if(!s){ m.textContent='인스타그램 릴스나 네이버 지도 링크를 넣어 주세요.'; track('place_save_failed',{reason:'unsupported_link'}); return; }
+  const pool = s==='naver' ? ['toad','pita'] : ['fire','slow','pita'];
+  const id = pool.find(k=>state.saved.indexOf(k)<0);
+  if(!id){ m.textContent='체험 샘플 맛집을 모두 저장했어요.'; return; }
+  state.saved.push(id); const c=P[id];
+  m.textContent='저장했어요. (체험용 샘플 맛집이에요)'; $('#lnk').value=''; addSavedRow(id);
+  const grid=$('#v-saved div[style*="grid-template-columns"]');
+  if(grid){ grid.insertAdjacentHTML('afterbegin','<a href="#" data-go="detail" style="display:flex;flex-direction:column;background:#fff;border:1px solid #ECE5E1;border-radius:16px;overflow:hidden;color:inherit;text-decoration:none"><div style="height:150px;overflow:hidden"><img src="photos/'+c.img+'.jpg" alt="'+c.n+' 대표 음식 사진" style="display:block;width:100%;height:100%;object-fit:cover"></div><div style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:3px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:16px;font-weight:600">'+c.n+'</span><span style="font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;color:#6B1225;background:#F2C14E">방금 저장</span></div><span style="font-size:13px;color:#7A6F70">'+c.area+' · '+c.desc+'</span><span style="font-size:12px;color:#7A6F70">출처 '+(s==='naver'?'네이버지도':'인스타')+' · 방금 (체험)</span></div></a>'); const cnt=$('#v-saved div[style*="justify-content: space-between"] div'); }
+  track('place_saved',{ place_id:id, source:s, simulated:true, saved_count:state.saved.length });
 }
-document.querySelectorAll('.chips[data-group]').forEach(g=>{
-  g.addEventListener('click', e=>{
-    const b=e.target.closest('.chip'); if(!b) return;
-    started();
-    const key=g.dataset.group, v=b.textContent.trim();
-    if (g.dataset.single){ g.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); state[key]=v; }
+
+function openNew(){
+  track('new_meeting_clicked');
+  modal(X+'<h2>새 모임 만들기</h2><div class="sub">모임 이름과 인원을 정하고 초대 링크를 만들어요.</div><div><div class="lab" style="margin-bottom:6px">모임 이름</div><input id="mName" type="text" value="토요일 저녁 모임"></div><div><div class="lab" style="margin-bottom:6px">인원 (나 포함)</div><input id="mCount" type="number" min="2" max="12" value="4"></div><div class="sub" style="background:#F6E8EB;border-radius:12px;padding:12px 14px;color:#6B1225">이어서 이렇게 진행돼요: 친구가 링크로 조건을 입력 → AI가 후보 5곳 추천 → 투표·대표 예약</div><button class="btn" data-act="makeLink">초대 링크 만들기</button>');
+}
+function makeLink(){
+  const name=$('#mName').value||'모임', rid='r'+Math.random().toString(36).slice(2,7);
+  const url=location.origin+location.pathname+'?room='+rid+'&host=모아밥체험&name='+encodeURIComponent(name)+'&src=invite';
+  track('room_created',{ new_room_id:rid, members:+$('#mCount').value||4 });
+  modal(X+'<h2>초대 링크를 만들었어요</h2><div class="sub">친구에게 이 링크를 공유하면, 설치 없이 웹에서 조건을 입력할 수 있어요.</div><input id="ilink" type="text" readonly value="'+url+'"><div style="display:flex;gap:8px"><button class="btn sub" data-act="copyLink" style="flex:1">링크 복사</button><button class="btn" data-act="openCond" style="flex:1">내 조건 먼저 입력</button></div>');
+}
+function openCond(host){
+  state.hostName=host||null; state.started=false;
+  const incBox = VAR.mylist_variant==='on' ? '<button class="chk" id="inc" aria-pressed="'+state.inc+'"><span class="box">✓</span><span><b style="font-size:14px">내 저장 맛집도 후보에 넣기 <span style="font-weight:400;font-size:12px;color:#7A6F70">선택</span></b><span style="display:block;font-size:12px;color:#7A6F70;margin-top:2px;line-height:1.45">넣고 싶은 사람만 체크하세요. 체험 버전에서는 샘플 저장 맛집이 들어가요.</span></span></button>' : '';
+  const grp=(key,label,opts,single)=>'<div><div class="lab" style="margin-bottom:8px">'+label+' <span style="font-weight:400;color:#7A6F70;font-size:12px">'+(single?'하나 선택':'여러 개 선택')+'</span></div><div class="chips" data-group="'+key+'"'+(single?' data-single="1"':'')+'>'+opts.map(o=>'<button class="chip" aria-pressed="false">'+o+'</button>').join('')+'</div></div>';
+  modal(X+'<div style="font-size:13px;font-weight:600;color:#8E1B32">'+(host?'앱 설치 없이 1분이면 끝나요':'2/5 각자 조건 고르기')+'</div><h2>'+(host?host+' 님이 같이밥에 초대했어요':'내 조건 고르기')+'</h2>'+grp('dates','가능한 날짜',['12/5(토)','12/6(일)','12/12(토)','12/13(일)'])+grp('foods','먹고 싶은 음식',['한식','일식','양식','중식','아시안','아무거나'])+grp('dist','가능한 거리',['도보 10분','지하철 20분 이내','상관없어요'],1)+incBox+'<button class="btn" id="send" data-act="send" disabled>내 조건 보내기</button><div class="sub" id="hint" style="text-align:center">날짜, 음식, 거리를 하나씩 골라 주세요</div>');
+  state.dates=[]; state.foods=[]; state.dist=null;
+}
+function condStarted(){ if(!state.started){ state.started=true; track('conditions_started'); } }
+function condRefresh(){ const ok=state.dates.length&&state.foods.length&&state.dist; const b=$('#send'); if(b) b.disabled=!ok; const h=$('#hint'); if(h) h.textContent=ok?'선택한 조건으로 후보를 골라 드려요':'날짜, 음식, 거리를 하나씩 골라 주세요'; }
+
+/* ----- 예약 기록 ----- */
+function record(){
+  if(!state.time){ toast('예약 가능한 시간을 먼저 골라 주세요'); return; }
+  const c=P[state.cur];
+  track('reservation_completed',{ place_id:state.cur, time:state.time, via_time_chip:state.viaChip, simulated:true, steps_to_reserve:state.steps, saved_in_session:state.saved.indexOf(state.cur)>-1 });
+  modal(X+'<div style="font-size:13px;font-weight:600;color:#8E1B32">체험 예약 기록 완료</div><h2>'+c.n+' · 12/5(토) '+state.time+'</h2><div class="sub">체험용이라 실제 예약은 되지 않았어요. 실제 서비스에서는 예약 내역이 홈의 "다가오는 예약"에 모이고, 방장의 대표 예약은 참여자 모두에게 공유돼요.</div><div style="border:1px solid #ECE5E1;border-radius:14px;padding:14px"><b style="font-size:14px">이 과정이 어땠나요?</b><div class="chips" style="margin-top:10px" data-group="fb" data-single="1"><button class="chip" aria-pressed="false">쉬웠어요</button><button class="chip" aria-pressed="false">보통이에요</button><button class="chip" aria-pressed="false">헷갈렸어요</button></div><div class="sub" id="fbT" hidden style="margin-top:8px">의견 고마워요!</div></div><button class="btn sub" data-act="close">닫기</button>');
+}
+
+/* ----- 이벤트 위임 ----- */
+document.addEventListener('click', e=>{
+  const t=e.target;
+  const act=t.closest('[data-act]');
+  if(act){
+    e.preventDefault(); const a=act.dataset.act;
+    if(a==='close') closeModal();
+    else if(a==='add') openAdd();
+    else if(a==='saveLink') saveLink();
+    else if(a==='new') openNew();
+    else if(a==='makeLink') makeLink();
+    else if(a==='copyLink'){ try{ navigator.clipboard.writeText($('#ilink').value); }catch(_){ $('#ilink').select(); } track('invite_link_copied'); toast('링크를 복사했어요'); }
+    else if(a==='openCond') openCond(null);
+    else if(a==='send'){
+      track('conditions_submitted',{ dates_count:state.dates.length, foods_count:state.foods.length, distance:state.dist, saved_included:state.inc, saved_count:state.saved.length });
+      track('candidates_generated',{ count:5, my_list_included:state.inc });
+      closeModal(); go('together'); track('candidates_viewed',{count:5});
+    }
+    else if(a==='install'){ track('install_button_clicked',{store:'ios',live:!!CONFIG.APP_STORE_URL}); if(CONFIG.APP_STORE_URL) window.open(CONFIG.APP_STORE_URL,'_blank','noopener'); else toast('iOS 앱은 App Store 심사 중이에요'); }
+    else if(a==='me') toast('체험 버전에는 내정보 화면이 없어요');
+    else if(a==='call') toast('체험 버전에서는 전화가 연결되지 않아요');
+    else if(a==='record') record();
+    else if(a==='reserveTop'){ openDetail(ranked()[0],null,'together_cta'); }
+    else if(a==='finishVote'){ state.voted=true; track('group_vote_completed',{ place_id:state.vote, my_list_included:state.inc }); renderPanel(); toast('투표를 마쳤어요. 방장이 예약하면 알려 드려요'); }
+    return;
+  }
+  if(t.closest('#ovl') && t===$('#ovl')){ closeModal(); return; }
+  const chipG=t.closest('.chips[data-group]');
+  if(chipG && t.closest('.chip')){
+    const b=t.closest('.chip'), key=chipG.dataset.group, v=b.textContent.trim();
+    if(key==='fb'){ chipG.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); const f=$('#fbT'); if(f) f.hidden=false; track('feedback_submitted',{rating:v}); return; }
+    condStarted();
+    if(chipG.dataset.single){ chipG.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); state[key]=v; }
     else { const on=b.getAttribute('aria-pressed')!=='true'; b.setAttribute('aria-pressed',on); state[key]=on?state[key].concat(v):state[key].filter(x=>x!==v); }
-    refresh();
-  });
-});
-$('#inc').addEventListener('click', ()=>{ started(); state.inc=!state.inc; $('#inc').setAttribute('aria-pressed',state.inc); track('saved_include_toggled',{included:state.inc}); });
-$('#send').addEventListener('click', ()=>{
-  track('conditions_submitted',{ dates_count:state.dates.length, foods_count:state.foods.length, distance:state.dist, saved_included:state.inc, saved_count:state.saved.length });
-  track('candidates_generated',{ count:5, my_list_included:state.inc });
-  renderCands(); show('cands'); track('candidates_viewed',{ count:5 });
-});
-
-/* 후보 */
-function renderCands(){
-  $('#cands').innerHTML = C.map((c,i)=>{
-    const votes = c.v + (state.vote===c.id?1:0);
-    const chips = VAR.chip_variant==='chip' ? '<div class="mini">'+c.times.map(t=>'<button class="chip" data-chip="'+t+'">'+t+'</button>').join('')+'</div>' : '';
-    const why = VAR.reason_variant==='with' ? '<div class="why">✦ '+c.why+'</div>' : '';
-    return '<div class="cand'+(state.vote===c.id?' mine':'')+'" data-open="'+c.id+'"><div class="h"><img src="photos/'+c.img+'.jpg" alt="'+c.n+' 대표 음식 사진"><div class="t"><b>'+c.n+'</b>'+((c.own&&state.inc)||(state.saved.indexOf(c.id)>-1&&state.inc)?'<span class="tag" style="display:inline">내 리스트</span>':'')+'<span>'+c.m+'</span></div><button class="vbtn" data-vote="'+c.id+'" data-rank="'+(i+1)+'">'+(state.vote===c.id?'내 투표':'투표하기')+'</button></div>'+why+chips+'<div class="ft"><span>12/5(토) 기준</span><span>'+votes+'표</span></div></div>';
-  }).join('');
-  $('#vcount').textContent = (state.vote?'4':'3')+'/4명 투표';
-}
-function openDetail(id, chipTime){
-  const i = C.findIndex(c=>c.id===id), c=C[i];
-  state.cur=c; state.time=chipTime||null; state.viaChip=!!chipTime; state.steps=0;
-  track('reco_card_clicked',{ place_id:id, rank:i+1, has_reason:VAR.reason_variant==='with', via_time_chip:!!chipTime });
-  $('#d-img').src='photos/'+c.img+'.jpg'; $('#d-img').alt=c.n+' 대표 음식 사진';
-  $('#d-name').textContent=c.n; $('#d-meta').textContent=c.m;
-  $('#d-why').textContent = '✦ '+c.why; $('#d-why').hidden = VAR.reason_variant!=='with';
-  $('#d-date').textContent='12/5(토)';
-  $('#d-times').innerHTML = c.times.map(t=>'<button class="chip" data-time="'+t+'" aria-pressed="'+(t===chipTime)+'">'+t+'</button>').join('');
-  $('#d-naver').href='https://map.naver.com/p/search/'+encodeURIComponent(c.q);
-  $('#d-insta').href='https://www.instagram.com/explore/search/keywords/?q='+encodeURIComponent(c.q);
-  $('#reserve').disabled = !chipTime;
-  show('detail');
-}
-$('#cands').addEventListener('click', e=>{
-  const v=e.target.closest('[data-vote]');
-  if (v){ e.stopPropagation(); state.vote=v.dataset.vote; track('vote_cast',{ place_id:v.dataset.vote, rank:+v.dataset.rank, my_list_included:state.inc }); renderCands(); $('#done').disabled=false; return; }
-  const ch=e.target.closest('[data-chip]'), card=e.target.closest('[data-open]');
-  if (card){ openDetail(card.dataset.open, ch?ch.dataset.chip:null); }
-});
-$('#done').addEventListener('click', ()=>{
-  const p = C.find(c=>c.id===state.vote);
-  track('group_vote_completed',{ place_id:state.vote, my_list_included:state.inc });
-  $('#endEyebrow').textContent='투표 완료'; $('#endTitle').innerHTML='방장이 예약하면<br>알려 드릴게요';
-  $('#endMsg').textContent='내가 고른 곳: '+p.n+' · 12/5(토)';
-  show('end');
+    condRefresh(); return;
+  }
+  if(t.closest('#inc')){ condStarted(); state.inc=!state.inc; $('#inc').setAttribute('aria-pressed',state.inc); track('saved_include_toggled',{included:state.inc}); return; }
+  const vb=t.closest('[data-vote]');
+  if(vb){ e.stopPropagation(); state.vote=vb.dataset.vote; state.voted=false; track('vote_cast',{ place_id:vb.dataset.vote, rank:+vb.dataset.rank, my_list_included:state.inc }); renderPanel(); return; }
+  const tm=t.closest('#dTimes [data-time]');
+  if(tm){ state.time=tm.dataset.time; state.steps++; $$('#dTimes .chip').forEach(c=>c.setAttribute('aria-pressed',c===tm)); return; }
+  const ob=t.closest('#dBook,#dMap,#dInsta');
+  if(ob){ track('outbound_clicked',{target:{dBook:'reservation_page',dMap:'naver_map',dInsta:'instagram'}[ob.id],place_id:state.cur}); return; }
+  /* 저장·홈·지도에서 시간 칩을 누르면 상세로 */
+  if(state.view==='map'){
+    const sp=t.closest('span,button,div');
+    if(sp && /^\d\d:\d\d$/.test(sp.textContent.trim()) && sp.children.length===0){ e.preventDefault(); openDetail('noodle', sp.textContent.trim(), 'map_chip'); return; }
+  }
+  const g=t.closest('[data-go]');
+  if(g){
+    e.preventDefault(); const v=g.dataset.go;
+    if(v==='back'){ go(lastView==='detail'?'saved':lastView); return; }
+    if(v==='detail'){ lastView=state.view; openDetail(placeFrom(g),null,state.view); return; }
+    lastView=state.view; go(v); return;
+  }
+  const row=t.closest('[data-open]');
+  if(row){ lastView=state.view; const ch=t.closest('[data-chip]'); openDetail(row.dataset.open, ch?ch.dataset.chip:null, 'together'); return; }
 });
 
-/* 상세 · 체험 예약 */
-$('#d-times').addEventListener('click', e=>{
-  const b=e.target.closest('[data-time]'); if(!b) return;
-  state.time=b.dataset.time; state.steps++;
-  document.querySelectorAll('#d-times .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));
-  $('#reserve').disabled=false;
+/* 홈의 "새 모임 만들기" 같은 보드 버튼 텍스트 연결 */
+$$('#v-home a, #v-together a, #v-map a, #v-saved a').forEach(a=>{
+  const x=a.textContent.trim();
+  if(/새 모임 만들기/.test(x)){ a.removeAttribute('data-go'); a.dataset.act='new'; }
+  if(/후보 미리 보기/.test(x)){ a.dataset.go='together'; }
+  if(/길찾기/.test(x)){ a.removeAttribute('data-go'); a.dataset.act='call'; }
 });
-$('#reserve').addEventListener('click', ()=>{
-  track('reservation_completed',{ place_id:state.cur.id, time:state.time, via_time_chip:state.viaChip, simulated:true, steps_to_reserve:state.steps });
-  $('#endEyebrow').textContent='체험 예약 요청 완료'; $('#endTitle').innerHTML=state.cur.n+'<br>12/5(토) '+state.time;
-  $('#endMsg').textContent='체험용이라 실제 예약은 되지 않았어요. 실제 서비스에서는 방장의 대표 예약 결과가 참여자 모두에게 공유돼요.';
-  show('end');
-});
-$('#d-naver').addEventListener('click', ()=>track('outbound_clicked',{target:'naver_map',where:'detail',place_id:state.cur&&state.cur.id}));
-$('#d-insta').addEventListener('click', ()=>track('outbound_clicked',{target:'instagram',where:'detail',place_id:state.cur&&state.cur.id}));
+/* 이 지역 다시 찾기 등 지도 버튼은 안내 */
 
-/* 끝 */
-$('[data-group=fb]').addEventListener('click', e=>{
-  const b=e.target.closest('.chip'); if(!b) return;
-  document.querySelectorAll('[data-group=fb] .chip').forEach(c=>c.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true');
-  $('#fbThanks').hidden=false; track('feedback_submitted',{ rating:b.textContent.trim() });
-});
-$('#again').addEventListener('click', ()=>{ state.vote=null; $('#done').disabled=true; show('cond'); });
-
+/* 시작 */
+const host = qs.get('host'); const nm = qs.get('name');
+go('home',{silent:true});
 track('invite_opened');
+if(qs.get('view') && ['home','saved','map','together'].indexOf(qs.get('view'))>-1) go(qs.get('view'));
+if(host){ track('group_link_opened',{guest:true}); go('together',{silent:true}); openCond(host.slice(0,10)); }
 </script>
 </body>
 </html>
