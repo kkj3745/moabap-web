@@ -174,9 +174,12 @@ if (CONFIG.GA4_MEASUREMENT_ID) {
   gtag('js', new Date());
   gtag('config', CONFIG.GA4_MEASUREMENT_ID, { send_page_view:true });
 }
+let ampReady = false; const ampQ = [];
 if (CONFIG.AMPLITUDE_API_KEY) {
   loadScript('https://cdn.amplitude.com/script/'+CONFIG.AMPLITUDE_API_KEY+'.js', function(){
     try { window.amplitude.init(CONFIG.AMPLITUDE_API_KEY, { autocapture:false, defaultTracking:{ pageViews:true, sessions:true } }); window.amplitude.setUserId && window.amplitude.setUserId(pid); } catch(e){}
+    ampReady = true;
+    ampQ.splice(0).forEach(function(q){ try { window.amplitude.track(q[0], q[1]); } catch(e){} });
   });
 }
 
@@ -186,7 +189,8 @@ function track(name, props){
   const p = Object.assign({}, base, props||{});
   window.__events.push({name:name, props:p});
   console.log('[event]', name, p);
-  try { if (window.amplitude && window.amplitude.track) window.amplitude.track(name, p); } catch(e){}
+  if (CONFIG.AMPLITUDE_API_KEY && !ampReady) { ampQ.push([name, p]); }
+  else { try { if (window.amplitude && window.amplitude.track) window.amplitude.track(name, p); } catch(e){} }
   try { if (CONFIG.GA4_MEASUREMENT_ID) gtag('event', name, p); } catch(e){}
 }
 
