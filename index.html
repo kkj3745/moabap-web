@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>모아밥 같이밥 체험</title>
+<meta name="description" content="모아밥 같이밥 체험 페이지. 날짜·음식·거리를 고르면 AI가 후보 5곳을 추천하고 투표까지 해 볼 수 있어요.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#FBF8F4;--brand:#8E1B32;--dark:#6B1225;--tint:#F6E8EB;--line:#ECE5E1;--muted:#6F6465;--ink:#231C1D;--yellow:#F2C14E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',-apple-system,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:8px;margin:14px 16px 10px;padding:0 14px;height:40px;background:#F3EDE8;border-radius:20px;font-size:13px;color:var(--muted)}
+main{flex:1;padding:4px 20px 120px;display:flex;flex-direction:column;gap:16px}
+h1{margin:0;font-size:22px;line-height:1.35}
+.eyebrow{font-size:13px;font-weight:600;color:var(--brand)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.steps{display:flex;gap:4px;margin:8px 0 6px}.steps i{flex:1;height:4px;border-radius:2px;background:var(--line)}.steps i.on{background:var(--brand)}
+.small{font-size:12px;color:var(--muted)}.lab{font-size:12px;font-weight:600;color:var(--brand)}
+.sec{display:flex;flex-direction:column;gap:8px}.sec h2{margin:0;font-size:14px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+.chip[aria-pressed=true]{border-color:var(--brand);background:var(--tint);color:var(--brand);font-weight:600}
+.chk{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:12px;cursor:pointer;text-align:left;font:inherit;width:100%}
+.box{flex:none;width:22px;height:22px;border:1.5px solid #CFC5C0;border-radius:6px;margin-top:1px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.chk[aria-pressed=true] .box{background:var(--brand);border-color:var(--brand)}
+.chk b{font-size:14px;font-weight:600}.chk span.d{display:block;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px 20px calc(14px + env(safe-area-inset-bottom))}
+.bar .in{max-width:430px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.btn{height:48px;border:0;border-radius:12px;background:var(--brand);color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.btn:disabled{background:#CDBEC2;cursor:default}
+.note{text-align:center;font-size:12px;color:var(--muted)}
+.cand{display:flex;flex-direction:column;gap:6px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.cand.mine{border:1.5px solid var(--brand)}
+.cand .h{display:flex;align-items:center;gap:10px}
+.cand img{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none}
+.cand .t{flex:1;min-width:0}.cand .t b{font-size:15px}.cand .t span{display:block;font-size:12px;color:var(--muted)}
+.tag{font-size:11px;font-weight:600;background:var(--yellow);border-radius:4px;padding:1px 5px;margin-left:6px}
+.vbtn{height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.cand.mine .vbtn{background:var(--brand);color:#fff;border-color:var(--brand)}
+.why{font-size:12.5px;color:var(--dark);line-height:1.4}.ft{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.fb{display:flex;gap:8px}.fb .chip{flex:1;text-align:center}
+.pill{display:inline-block;font-size:11px;font-weight:600;color:var(--dark);background:var(--tint);border-radius:6px;padding:2px 8px}
+footer{padding:0 20px 20px;font-size:11.5px;color:var(--muted);line-height:1.6}footer a{color:var(--brand)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top" aria-hidden="true">모아밥 · 같이밥 초대 <span class="pill" style="margin-left:auto">프로토타입 체험</span></div>
+
+<!-- 1. 조건 입력 (2단계 · 3단계) -->
+<main id="s1">
+<div><div class="eyebrow" id="eyebrow">설치 없이 1분이면 체험할 수 있어요</div><h1 id="hello">친구들과 같이밥,<br>이렇게 정해요</h1></div>
+<div class="card"><div class="row"><b style="font-size:16px" id="roomName">토요일 저녁 모임</b><span class="small">4명 · 3/4명 입력 완료</span></div>
+<div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="lab">2/5 각자 조건 고르기 · 내 차례예요</div></div>
+<div class="sec"><div class="row"><h2>가능한 날짜</h2><span class="small">여러 개 선택</span></div><div class="chips" data-group="dates">
+<button class="chip" aria-pressed="false">12/5(토)</button><button class="chip" aria-pressed="false">12/6(일)</button><button class="chip" aria-pressed="false">12/12(토)</button><button class="chip" aria-pressed="false">12/13(일)</button></div></div>
+<div class="sec"><div class="row"><h2>먹고 싶은 음식</h2><span class="small">여러 개 선택</span></div><div class="chips" data-group="foods">
+<button class="chip" aria-pressed="false">한식</button><button class="chip" aria-pressed="false">일식</button><button class="chip" aria-pressed="false">양식</button><button class="chip" aria-pressed="false">중식</button><button class="chip" aria-pressed="false">아시안</button><button class="chip" aria-pressed="false">아무거나</button></div></div>
+<div class="sec"><div class="row"><h2>가능한 거리</h2><span class="small">하나 선택</span></div><div class="chips" data-group="dist" data-single="1">
+<button class="chip" aria-pressed="false">도보 10분</button><button class="chip" aria-pressed="false">지하철 20분 이내</button><button class="chip" aria-pressed="false">상관없어요</button></div></div>
+<button class="chk" id="inc" aria-pressed="false"><span class="box">✓</span><span><b>내 저장 맛집도 후보에 넣기 <span class="small" style="font-weight:400">선택</span></b><span class="d">넣고 싶은 사람만 체크하세요. 체험 버전에서는 샘플 맛집이 대신 들어가요.</span></span></button>
+<div class="bar"><div class="in"><button class="btn" id="send" disabled>내 조건 보내기</button><div class="note" id="hint">날짜, 음식, 거리를 하나씩 골라 주세요</div></div></div>
+</main>
+
+<!-- 2. 후보 투표 (4~5단계) -->
+<main id="s2" hidden>
+<div class="row"><b style="font-size:16px" id="roomName2">토요일 저녁 모임</b><span class="small">모두의 조건이 겹치는 곳</span></div>
+<div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="row"><span class="lab">5/5 투표·대표 예약</span><span class="small" id="vcount">3/4명 투표</span></div></div>
+<div class="small" style="margin-top:-6px">체험용 샘플 데이터예요. 마음에 드는 곳 하나에 투표해 보세요.</div>
+<div id="cands" style="display:flex;flex-direction:column;gap:8px"></div>
+<div class="bar"><div class="in"><button class="btn" id="done" disabled>투표 마치기</button><div class="note">방장이 예약하면 참여자 모두에게 공유돼요</div></div></div>
+</main>
+
+<!-- 3. 완료 + 피드백 -->
+<main id="s3" hidden>
+<div><div class="eyebrow">투표 완료</div><h1>방장이 예약하면<br>알려 드릴게요</h1></div>
+<div class="card"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="small" id="doneMsg"></div></div>
+<div class="card sec"><h2>이 과정이 어땠나요?</h2><div class="fb" data-group="fb" data-single="1"><button class="chip" aria-pressed="false">쉬웠어요</button><button class="chip" aria-pressed="false">보통이에요</button><button class="chip" aria-pressed="false">헷갈렸어요</button></div>
+<div class="small" id="fbThanks" hidden>의견 고마워요!</div></div>
+</main>
+
+<footer>이 페이지는 모아밥 프로토타입 체험 버전이에요. 입력한 조건은 서버에 저장되지 않고, 서비스 개선을 위해 화면 이동과 버튼 클릭 같은 이용 기록만 수집해요. 이름·연락처는 수집하지 않아요. <a href="https://kkj3745.github.io/moabap-privacy/" target="_blank" rel="noopener">개인정보처리방침</a></footer>
+</div>
+
+<script>
+/* ===== 설정: 키를 넣으면 전송이 켜져요. 비어 있으면 콘솔에만 기록돼요 ===== */
+const CONFIG = {
+  AMPLITUDE_API_KEY: 'ab168d392848dcbebffc7ce9571c9b4b',
+  GA4_MEASUREMENT_ID: 'G-76VT3EXNTD',
+};
+
+/* ----- 공통 속성 ----- */
+const qs = new URLSearchParams(location.search);
+const room = qs.get('room') || 'demo';
+const src = qs.get('src') || 'direct';
+const pid = (function(){ try{ let v=localStorage.getItem('moabap_pid'); if(!v){v='p'+Math.random().toString(36).slice(2,10); localStorage.setItem('moabap_pid',v);} return v;}catch(e){return 'p'+Math.random().toString(36).slice(2,10);} })();
+const base = { platform:'web', room_id:room, participant_id:pid, src:src };
+
+/* ----- SDK 로드 (키가 있을 때만) ----- */
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+function loadScript(u, cb){ const s=document.createElement('script'); s.async=true; s.src=u; if(cb) s.onload=cb; document.head.appendChild(s); }
+if (CONFIG.GA4_MEASUREMENT_ID) {
+  loadScript('https://www.googletagmanager.com/gtag/js?id='+CONFIG.GA4_MEASUREMENT_ID);
+  gtag('js', new Date());
+  gtag('config', CONFIG.GA4_MEASUREMENT_ID, { send_page_view:true });
+}
+if (CONFIG.AMPLITUDE_API_KEY) {
+  loadScript('https://cdn.amplitude.com/script/'+CONFIG.AMPLITUDE_API_KEY+'.js', function(){
+    try { window.amplitude.init(CONFIG.AMPLITUDE_API_KEY, { autocapture:false, defaultTracking:{ pageViews:true, sessions:true } }); window.amplitude.setUserId && window.amplitude.setUserId(pid); } catch(e){}
+  });
+}
+
+/* ----- 이벤트 전송: Amplitude와 GA4에 같은 이름으로 ----- */
+window.__events = [];
+function track(name, props){
+  const p = Object.assign({}, base, props||{});
+  window.__events.push({name:name, props:p});
+  console.log('[event]', name, p);
+  try { if (window.amplitude && window.amplitude.track) window.amplitude.track(name, p); } catch(e){}
+  try { if (CONFIG.GA4_MEASUREMENT_ID) gtag('event', name, p); } catch(e){}
+}
+
+/* ----- 화면 ----- */
+const $ = s => document.querySelector(s);
+const state = { dates:[], foods:[], dist:null, inc:false, vote:null, started:false };
+function show(id){ ['s1','s2','s3'].forEach(x=>{ $('#'+x).hidden = x!==id; }); window.scrollTo(0,0); }
+
+const nm = qs.get('name'); if (nm) { $('#roomName').textContent = nm; $('#roomName2').textContent = nm; }
+const host = qs.get('host'); if (host) { $('#hello').textContent = host.slice(0,10)+' 님이 같이밥에 초대했어요'; $('#eyebrow').textContent = '앱 설치 없이 1분이면 끝나요'; }
+
+function started(){ if(!state.started){ state.started=true; track('conditions_started'); } }
+function refresh(){
+  const ok = state.dates.length && state.foods.length && state.dist;
+  $('#send').disabled = !ok;
+  $('#hint').textContent = ok ? '선택한 조건으로 후보를 골라 드려요' : '날짜, 음식, 거리를 하나씩 골라 주세요';
+}
+document.querySelectorAll('.chips[data-group]').forEach(g=>{
+  g.addEventListener('click', e=>{
+    const b=e.target.closest('.chip'); if(!b) return;
+    started();
+    const key=g.dataset.group, v=b.textContent.trim();
+    if (g.dataset.single){ g.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); state[key]=v; }
+    else { const on=b.getAttribute('aria-pressed')!=='true'; b.setAttribute('aria-pressed',on); state[key]=on?state[key].concat(v):state[key].filter(x=>x!==v); }
+    refresh();
+  });
+});
+$('#inc').addEventListener('click', ()=>{ started(); state.inc=!state.inc; $('#inc').setAttribute('aria-pressed',state.inc); track('saved_include_toggled',{included:state.inc}); });
+
+$('#send').addEventListener('click', ()=>{
+  track('conditions_submitted',{ dates_count:state.dates.length, foods_count:state.foods.length, distance:state.dist, saved_included:state.inc });
+  track('candidates_generated',{ count:5 });
+  renderCands(); show('s2'); track('candidates_viewed',{ count:5 });
+});
+
+const C = [
+ {id:'dinner',n:'저녁 일곱시',m:'망원동 · 비스트로',img:'steak',own:1,why:'가능한 날 4/4 · 양식 3명 · 모두 20분 안',av:'12/5(토) 19시',v:2},
+ {id:'garden',n:'정원 식탁',m:'합정동 · 한식 다이닝',img:'hansik',why:'가능한 날 4/4 · 한식 2명 · 모두 20분 안',av:'12/5(토) 18시·19시',v:1},
+ {id:'night',n:'밤의 국수',m:'망원동 · 국수 · 이자카야',img:'black',why:'가능한 날 3/4 · 일식 2명 · 모두 20분 안',av:'12/5(토) 19시',v:0},
+ {id:'noodle',n:'오후의 면',m:'연남동 · 수타면',img:'ramen',own:1,why:'가능한 날 3/4 · 아시안 2명 · 모두 30분 안',av:'12/6(일) 12시',v:0},
+ {id:'alley',n:'골목 파스타',m:'연남동 · 생면 파스타',img:'plate',why:'가능한 날 4/4 · 양식 3명 · 모두 30분 안',av:'12/5(토) 20시',v:0}
+];
+function renderCands(){
+  $('#cands').innerHTML = C.map((c,i)=>{
+    const votes = c.v + (state.vote===c.id?1:0);
+    return '<div class="cand'+(state.vote===c.id?' mine':'')+'"><div class="h"><img src="photos/'+c.img+'.jpg" alt="'+c.n+' 대표 음식 사진"><div class="t"><b>'+c.n+'</b>'+(c.own&&state.inc?'<span class="tag" style="display:inline">내 리스트</span>':'')+'<span>'+c.m+'</span></div><button class="vbtn" data-id="'+c.id+'" data-rank="'+(i+1)+'">'+(state.vote===c.id?'내 투표':'투표하기')+'</button></div><div class="why">✦ '+c.why+'</div><div class="ft"><span>예약 가능 '+c.av+'</span><span>'+votes+'표</span></div></div>';
+  }).join('');
+  $('#vcount').textContent = (state.vote?'4':'3')+'/4명 투표';
+}
+$('#cands').addEventListener('click', e=>{
+  const b=e.target.closest('.vbtn'); if(!b) return;
+  state.vote=b.dataset.id; track('vote_cast',{ place_id:b.dataset.id, rank:+b.dataset.rank });
+  renderCands(); $('#done').disabled=false;
+});
+$('#done').addEventListener('click', ()=>{
+  const p = C.find(c=>c.id===state.vote);
+  $('#doneMsg').textContent = '내가 고른 곳: '+p.n+' · '+p.av;
+  show('s3'); track('vote_completed',{ place_id:state.vote });
+});
+$('[data-group=fb]').addEventListener('click', e=>{
+  const b=e.target.closest('.chip'); if(!b) return;
+  document.querySelectorAll('[data-group=fb] .chip').forEach(c=>c.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true');
+  $('#fbThanks').hidden=false; track('feedback_submitted',{ rating:b.textContent.trim() });
+});
+
+track('invite_opened');
+</script>
+</body>
+</html>
