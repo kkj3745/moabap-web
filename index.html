@@ -59,7 +59,8 @@ button{font-family:inherit}
 <span class="ava">모</span>
 </header>
 
-<section id="v-home" data-view><div style="flex: 1;  display: flex; gap: 32px; padding: 28px 48px 0;padding-bottom: 64px;">
+<section id="v-home" data-view><div style="margin:20px 48px 0;padding:14px 18px;background:#F6E8EB;border:1px solid #EBCBD2;border-radius:14px;display:flex;gap:20px;align-items:center;font-size:14px;color:#6B1225"><b style="flex:none">체험 과제 3가지</b><span>① 상단 <b>맛집 추가</b>에서 릴스·네이버지도 링크를 넣어 저장 &nbsp;② <b>이번 주 갈 곳</b>에서 카드를 눌러 상세로 가서 <b>예약 기록하기</b> &nbsp;③ <b>같이밥</b>에서 후보에 투표</span></div>
+<div style="flex: 1;  display: flex; gap: 32px; padding: 28px 48px 0;padding-bottom: 64px;">
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
 <div style="display: flex; flex-direction: column; gap: 12px;"><div style="display: flex; align-items: center; gap: 8px;"><h2 style="margin: 0; font-size: 18px; font-weight: 700;">다가오는 예약</h2><span style="font-size: 14px; font-weight: 700; color: #8E1B32;">3</span></div>
 <div style="display: flex; gap: 12px;"><a href="#" data-go="detail" style="flex: 1; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; text-decoration: none; color: #231C1D;"><div style="width: 46px; height: 46px; flex: none; border-radius: 12px; background: #F6E8EB;color: #8E1B32; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 11px;">11월</span><span style="font-size: 17px; font-weight: 700; line-height: 1.1;">14</span></div><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; font-weight: 600; color: #8E1B32;">D-17</span><span style="font-size: 15px; font-weight: 600;">저녁 일곱시 · 토 19:00</span><span style="font-size: 13px; color: #7A6F70;">망원동 · 4명</span></div></a><a href="#" data-go="detail" style="flex: 1; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; text-decoration: none; color: #231C1D;"><div style="width: 46px; height: 46px; flex: none; border-radius: 12px; background: #F4F1EE;color: #231C1D; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 11px;">11월</span><span style="font-size: 17px; font-weight: 700; line-height: 1.1;">21</span></div><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; font-weight: 600; color: #7A6F70;">D-24</span><span style="font-size: 15px; font-weight: 600;">두꺼비 · 토 18:00</span><span style="font-size: 13px; color: #7A6F70;">을지로 · 3명</span></div></a><a href="#" data-go="detail" style="flex: 1; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #ECE5E1; border-radius: 16px; text-decoration: none; color: #231C1D;"><div style="width: 46px; height: 46px; flex: none; border-radius: 12px; background: #F4F1EE;color: #231C1D; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 11px;">11월</span><span style="font-size: 17px; font-weight: 700; line-height: 1.1;">27</span></div><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; font-weight: 600; color: #7A6F70;">D-30</span><span style="font-size: 15px; font-weight: 600;">피타피타 · 금 19:30</span><span style="font-size: 13px; color: #7A6F70;">해방촌 · 2명</span></div></a></div></div>
@@ -170,6 +171,7 @@ if (innerWidth < 860 && !/[?&]d=1/.test(location.search)) { location.replace('m.
 const CONFIG = {
   AMPLITUDE_API_KEY: 'ab168d392848dcbebffc7ce9571c9b4b',
   GA4_MEASUREMENT_ID: 'G-76VT3EXNTD',
+  AB_ENABLED: false,   // false: 모두 같은 화면(이유 문구 있음·시간 칩·내 저장 포함). true: 방문자별 A/B 랜덤 배정
   APP_STORE_URL: '',   // 앱 출시 후 App Store 주소 (비어 있으면 "심사 중" 안내)
 };
 
@@ -181,6 +183,7 @@ function ls(k, v){ try{ if(v===undefined) return localStorage.getItem(k); localS
 let pid = ls('moabap_pid'); if(!pid){ pid='p'+Math.random().toString(36).slice(2,10); ls('moabap_pid',pid); }
 function assign(key, opts, forced){
   if(forced && opts.indexOf(forced)>-1) return forced;
+  if(!CONFIG.AB_ENABLED) return opts[0];
   let v = ls('moabap_'+key); if(opts.indexOf(v)<0){ v = opts[Math.random()<0.5?0:1]; ls('moabap_'+key, v); } return v;
 }
 const forced = !!(qs.get('v_reason')||qs.get('v_chip')||qs.get('v_mylist'));
@@ -234,7 +237,7 @@ const NAMES = Object.keys(P).map(k=>[P[k].n,k]).sort((a,b)=>b[0].length-a[0].len
 const RECO = ['dinner','garden','night','noodle','alley'];
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
-const state = { view:'home', dates:[], foods:[], dist:null, inc:false, started:false, saved:[], vote:null, voted:false, cur:null, time:null, viaChip:false, steps:0, hostName:null };
+const state = { view:'home', dates:[], foods:[], dist:null, inc:false, started:false, saved:[], savedAt:{}, vote:null, voted:false, cur:null, time:null, viaChip:false, steps:0, hostName:null };
 const showReason = () => VAR.reason_variant==='with';
 const showTags = () => VAR.mylist_variant==='on';
 
@@ -320,7 +323,7 @@ function saveLink(){
   const pool = s==='naver' ? ['toad','pita'] : ['fire','slow','pita'];
   const id = pool.find(k=>state.saved.indexOf(k)<0);
   if(!id){ m.textContent='체험 샘플 맛집을 모두 저장했어요.'; return; }
-  state.saved.push(id); const c=P[id];
+  state.saved.push(id); state.savedAt[id]=Date.now(); const c=P[id];
   m.textContent='저장했어요. (체험용 샘플 맛집이에요)'; $('#lnk').value=''; addSavedRow(id);
   const grid=$('#v-saved div[style*="grid-template-columns"]');
   if(grid){ grid.insertAdjacentHTML('afterbegin','<a href="#" data-go="detail" style="display:flex;flex-direction:column;background:#fff;border:1px solid #ECE5E1;border-radius:16px;overflow:hidden;color:inherit;text-decoration:none"><div style="height:150px;overflow:hidden"><img src="photos/'+c.img+'.jpg" alt="'+c.n+' 대표 음식 사진" style="display:block;width:100%;height:100%;object-fit:cover"></div><div style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:3px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:16px;font-weight:600">'+c.n+'</span><span style="font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;color:#6B1225;background:#F2C14E">방금 저장</span></div><span style="font-size:13px;color:#7A6F70">'+c.area+' · '+c.desc+'</span><span style="font-size:12px;color:#7A6F70">출처 '+(s==='naver'?'네이버지도':'인스타')+' · 방금 (체험)</span></div></a>'); const cnt=$('#v-saved div[style*="justify-content: space-between"] div'); }
@@ -348,7 +351,10 @@ function condStarted(){ if(!state.started){ state.started=true; track('condition
 function condRefresh(){ const ok=state.dates.length&&state.foods.length&&state.dist; const b=$('#send'); if(b) b.disabled=!ok; const h=$('#hint'); if(h) h.textContent=ok?'선택한 조건으로 후보를 골라 드려요':'날짜, 음식, 거리를 하나씩 골라 주세요'; }
 
 /* ----- 예약 기록 ----- */
+function daysSince(id){ return state.savedAt[id] ? Math.round((Date.now()-state.savedAt[id])/864e5*100)/100 : null; }
+function reserveClicked(button){ track('reserve_clicked',{ place_id:state.cur, button:button, via_time_chip:state.viaChip, has_time:!!state.time, days_since_saved:daysSince(state.cur), saved_in_session:state.saved.indexOf(state.cur)>-1 }); }
 function record(){
+  reserveClicked('record');
   if(!state.time){ toast('예약 가능한 시간을 먼저 골라 주세요'); return; }
   const c=P[state.cur];
   track('reservation_completed',{ place_id:state.cur, time:state.time, via_time_chip:state.viaChip, simulated:true, steps_to_reserve:state.steps, saved_in_session:state.saved.indexOf(state.cur)>-1 });
@@ -397,7 +403,7 @@ document.addEventListener('click', e=>{
   const tm=t.closest('#dTimes [data-time]');
   if(tm){ state.time=tm.dataset.time; state.steps++; $$('#dTimes .chip').forEach(c=>c.setAttribute('aria-pressed',c===tm)); return; }
   const ob=t.closest('#dBook,#dMap,#dInsta');
-  if(ob){ track('outbound_clicked',{target:{dBook:'reservation_page',dMap:'naver_map',dInsta:'instagram'}[ob.id],place_id:state.cur}); return; }
+  if(ob){ if(ob.id==='dBook') reserveClicked('reservation_page'); track('outbound_clicked',{target:{dBook:'reservation_page',dMap:'naver_map',dInsta:'instagram'}[ob.id],place_id:state.cur}); return; }
   /* 저장·홈·지도에서 시간 칩을 누르면 상세로 */
   if(state.view==='map'){
     const sp=t.closest('span,button,div');
